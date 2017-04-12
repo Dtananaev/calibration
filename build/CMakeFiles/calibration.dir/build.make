@@ -62,9 +62,14 @@ include/moc_pclviewer.cxx: ../include/pclviewer.h
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/moc_pclviewer.cxx"
 	cd /home/denis/calibration/build/include && /usr/lib/x86_64-linux-gnu/qt4/bin/moc @/home/denis/calibration/build/include/moc_pclviewer.cxx_parameters
 
+include/moc_loader.cxx: ../include/loader.h
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/moc_loader.cxx"
+	cd /home/denis/calibration/build/include && /usr/lib/x86_64-linux-gnu/qt4/bin/moc @/home/denis/calibration/build/include/moc_loader.cxx_parameters
+
 CMakeFiles/calibration.dir/src/main.cpp.o: CMakeFiles/calibration.dir/flags.make
 CMakeFiles/calibration.dir/src/main.cpp.o: ../src/main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/calibration.dir/src/main.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/calibration.dir/src/main.cpp.o -c /home/denis/calibration/src/main.cpp
 
@@ -87,7 +92,7 @@ CMakeFiles/calibration.dir/src/main.cpp.o.provides.build: CMakeFiles/calibration
 
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: CMakeFiles/calibration.dir/flags.make
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: ../src/pclviewer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/calibration.dir/src/pclviewer.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/calibration.dir/src/pclviewer.cpp.o -c /home/denis/calibration/src/pclviewer.cpp
 
@@ -108,9 +113,32 @@ CMakeFiles/calibration.dir/src/pclviewer.cpp.o.provides: CMakeFiles/calibration.
 
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o.provides.build: CMakeFiles/calibration.dir/src/pclviewer.cpp.o
 
+CMakeFiles/calibration.dir/src/loader.cpp.o: CMakeFiles/calibration.dir/flags.make
+CMakeFiles/calibration.dir/src/loader.cpp.o: ../src/loader.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/calibration.dir/src/loader.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/calibration.dir/src/loader.cpp.o -c /home/denis/calibration/src/loader.cpp
+
+CMakeFiles/calibration.dir/src/loader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calibration.dir/src/loader.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/denis/calibration/src/loader.cpp > CMakeFiles/calibration.dir/src/loader.cpp.i
+
+CMakeFiles/calibration.dir/src/loader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calibration.dir/src/loader.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/denis/calibration/src/loader.cpp -o CMakeFiles/calibration.dir/src/loader.cpp.s
+
+CMakeFiles/calibration.dir/src/loader.cpp.o.requires:
+.PHONY : CMakeFiles/calibration.dir/src/loader.cpp.o.requires
+
+CMakeFiles/calibration.dir/src/loader.cpp.o.provides: CMakeFiles/calibration.dir/src/loader.cpp.o.requires
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/loader.cpp.o.provides.build
+.PHONY : CMakeFiles/calibration.dir/src/loader.cpp.o.provides
+
+CMakeFiles/calibration.dir/src/loader.cpp.o.provides.build: CMakeFiles/calibration.dir/src/loader.cpp.o
+
 CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o: CMakeFiles/calibration.dir/flags.make
 CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o: include/moc_pclviewer.cxx
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o -c /home/denis/calibration/build/include/moc_pclviewer.cxx
 
@@ -131,18 +159,45 @@ CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o.provides: CMakeFiles/cali
 
 CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o.provides.build: CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o
 
+CMakeFiles/calibration.dir/include/moc_loader.cxx.o: CMakeFiles/calibration.dir/flags.make
+CMakeFiles/calibration.dir/include/moc_loader.cxx.o: include/moc_loader.cxx
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/denis/calibration/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/calibration.dir/include/moc_loader.cxx.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/calibration.dir/include/moc_loader.cxx.o -c /home/denis/calibration/build/include/moc_loader.cxx
+
+CMakeFiles/calibration.dir/include/moc_loader.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calibration.dir/include/moc_loader.cxx.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/denis/calibration/build/include/moc_loader.cxx > CMakeFiles/calibration.dir/include/moc_loader.cxx.i
+
+CMakeFiles/calibration.dir/include/moc_loader.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calibration.dir/include/moc_loader.cxx.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/denis/calibration/build/include/moc_loader.cxx -o CMakeFiles/calibration.dir/include/moc_loader.cxx.s
+
+CMakeFiles/calibration.dir/include/moc_loader.cxx.o.requires:
+.PHONY : CMakeFiles/calibration.dir/include/moc_loader.cxx.o.requires
+
+CMakeFiles/calibration.dir/include/moc_loader.cxx.o.provides: CMakeFiles/calibration.dir/include/moc_loader.cxx.o.requires
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_loader.cxx.o.provides.build
+.PHONY : CMakeFiles/calibration.dir/include/moc_loader.cxx.o.provides
+
+CMakeFiles/calibration.dir/include/moc_loader.cxx.o.provides.build: CMakeFiles/calibration.dir/include/moc_loader.cxx.o
+
 # Object files for target calibration
 calibration_OBJECTS = \
 "CMakeFiles/calibration.dir/src/main.cpp.o" \
 "CMakeFiles/calibration.dir/src/pclviewer.cpp.o" \
-"CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o"
+"CMakeFiles/calibration.dir/src/loader.cpp.o" \
+"CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o" \
+"CMakeFiles/calibration.dir/include/moc_loader.cxx.o"
 
 # External object files for target calibration
 calibration_EXTERNAL_OBJECTS =
 
 calibration: CMakeFiles/calibration.dir/src/main.cpp.o
 calibration: CMakeFiles/calibration.dir/src/pclviewer.cpp.o
+calibration: CMakeFiles/calibration.dir/src/loader.cpp.o
 calibration: CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o
+calibration: CMakeFiles/calibration.dir/include/moc_loader.cxx.o
 calibration: CMakeFiles/calibration.dir/build.make
 calibration: /usr/lib/x86_64-linux-gnu/libQtGui.so
 calibration: /usr/lib/x86_64-linux-gnu/libQtCore.so
@@ -270,7 +325,9 @@ CMakeFiles/calibration.dir/build: calibration
 
 CMakeFiles/calibration.dir/requires: CMakeFiles/calibration.dir/src/main.cpp.o.requires
 CMakeFiles/calibration.dir/requires: CMakeFiles/calibration.dir/src/pclviewer.cpp.o.requires
+CMakeFiles/calibration.dir/requires: CMakeFiles/calibration.dir/src/loader.cpp.o.requires
 CMakeFiles/calibration.dir/requires: CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o.requires
+CMakeFiles/calibration.dir/requires: CMakeFiles/calibration.dir/include/moc_loader.cxx.o.requires
 .PHONY : CMakeFiles/calibration.dir/requires
 
 CMakeFiles/calibration.dir/clean:
@@ -279,6 +336,7 @@ CMakeFiles/calibration.dir/clean:
 
 CMakeFiles/calibration.dir/depend: ui_pclviewer.h
 CMakeFiles/calibration.dir/depend: include/moc_pclviewer.cxx
+CMakeFiles/calibration.dir/depend: include/moc_loader.cxx
 	cd /home/denis/calibration/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/denis/calibration /home/denis/calibration /home/denis/calibration/build /home/denis/calibration/build /home/denis/calibration/build/CMakeFiles/calibration.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/calibration.dir/depend
 

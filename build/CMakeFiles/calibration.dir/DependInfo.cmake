@@ -4,7 +4,9 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
+  "/home/denis/calibration/build/include/moc_loader.cxx" "/home/denis/calibration/build/CMakeFiles/calibration.dir/include/moc_loader.cxx.o"
   "/home/denis/calibration/build/include/moc_pclviewer.cxx" "/home/denis/calibration/build/CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o"
+  "/home/denis/calibration/src/loader.cpp" "/home/denis/calibration/build/CMakeFiles/calibration.dir/src/loader.cpp.o"
   "/home/denis/calibration/src/main.cpp" "/home/denis/calibration/build/CMakeFiles/calibration.dir/src/main.cpp.o"
   "/home/denis/calibration/src/pclviewer.cpp" "/home/denis/calibration/build/CMakeFiles/calibration.dir/src/pclviewer.cpp.o"
   )

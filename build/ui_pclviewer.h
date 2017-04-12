@@ -37,7 +37,7 @@ public:
     QPushButton *minusButton;
     QPushButton *plusButton;
     QPushButton *pushButton_load;
-    QLabel *depthlb;
+    QLabel *gimagelb;
     QSlider *horizontalSlider;
     QLCDNumber *lcdNumber;
     QLabel *imagelb;
@@ -84,11 +84,11 @@ public:
 
         gridLayout->addWidget(pushButton_load, 8, 1, 1, 1);
 
-        depthlb = new QLabel(centralwidget);
-        depthlb->setObjectName(QString::fromUtf8("depthlb"));
-        depthlb->setMinimumSize(QSize(199, 156));
+        gimagelb = new QLabel(centralwidget);
+        gimagelb->setObjectName(QString::fromUtf8("gimagelb"));
+        gimagelb->setMinimumSize(QSize(199, 156));
 
-        gridLayout->addWidget(depthlb, 1, 0, 1, 2);
+        gridLayout->addWidget(gimagelb, 1, 0, 1, 2);
 
         horizontalSlider = new QSlider(centralwidget);
         horizontalSlider->setObjectName(QString::fromUtf8("horizontalSlider"));
@@ -162,7 +162,7 @@ public:
         minusButton->setText(QApplication::translate("PCLViewer", "-", 0, QApplication::UnicodeUTF8));
         plusButton->setText(QApplication::translate("PCLViewer", "+", 0, QApplication::UnicodeUTF8));
         pushButton_load->setText(QApplication::translate("PCLViewer", "Load file", 0, QApplication::UnicodeUTF8));
-        depthlb->setText(QString());
+        gimagelb->setText(QString());
         imagelb->setText(QString());
         pushButton_save->setText(QApplication::translate("PCLViewer", "Save file", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("PCLViewer", "Number of points:", 0, QApplication::UnicodeUTF8));

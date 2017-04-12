@@ -114,6 +114,30 @@ calibration/fast:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/build
 .PHONY : calibration/fast
 
+include/moc_loader.o: include/moc_loader.cxx.o
+.PHONY : include/moc_loader.o
+
+# target to build an object file
+include/moc_loader.cxx.o:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_loader.cxx.o
+.PHONY : include/moc_loader.cxx.o
+
+include/moc_loader.i: include/moc_loader.cxx.i
+.PHONY : include/moc_loader.i
+
+# target to preprocess a source file
+include/moc_loader.cxx.i:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_loader.cxx.i
+.PHONY : include/moc_loader.cxx.i
+
+include/moc_loader.s: include/moc_loader.cxx.s
+.PHONY : include/moc_loader.s
+
+# target to generate assembly for a file
+include/moc_loader.cxx.s:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_loader.cxx.s
+.PHONY : include/moc_loader.cxx.s
+
 include/moc_pclviewer.o: include/moc_pclviewer.cxx.o
 .PHONY : include/moc_pclviewer.o
 
@@ -137,6 +161,30 @@ include/moc_pclviewer.s: include/moc_pclviewer.cxx.s
 include/moc_pclviewer.cxx.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.s
 .PHONY : include/moc_pclviewer.cxx.s
+
+src/loader.o: src/loader.cpp.o
+.PHONY : src/loader.o
+
+# target to build an object file
+src/loader.cpp.o:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/loader.cpp.o
+.PHONY : src/loader.cpp.o
+
+src/loader.i: src/loader.cpp.i
+.PHONY : src/loader.i
+
+# target to preprocess a source file
+src/loader.cpp.i:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/loader.cpp.i
+.PHONY : src/loader.cpp.i
+
+src/loader.s: src/loader.cpp.s
+.PHONY : src/loader.s
+
+# target to generate assembly for a file
+src/loader.cpp.s:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/loader.cpp.s
+.PHONY : src/loader.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -195,9 +243,15 @@ help:
 	@echo "... calibration"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... include/moc_loader.o"
+	@echo "... include/moc_loader.i"
+	@echo "... include/moc_loader.s"
 	@echo "... include/moc_pclviewer.o"
 	@echo "... include/moc_pclviewer.i"
 	@echo "... include/moc_pclviewer.s"
+	@echo "... src/loader.o"
+	@echo "... src/loader.i"
+	@echo "... src/loader.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

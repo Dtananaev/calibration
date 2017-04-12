@@ -22,6 +22,8 @@
 
 // Visualization Toolkit (VTK)
 #include <vtkRenderWindow.h>
+//my
+#include "loader.h" 
 
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
@@ -52,6 +54,7 @@ class PCLViewer: public QMainWindow
     virtual ~PCLViewer ();
     void update(int index);
   protected:
+    loader im_;
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_;
     PointCloudT::Ptr cloud_;
     PointCloudT::Ptr cloud_viz_;
