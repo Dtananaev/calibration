@@ -37,4 +37,9 @@ ADD_EXECUTABLE  (calibration ${project_SOURCES}
 TARGET_LINK_LIBRARIES (calibration ${QT_LIBRARIES} ${PCL_LIBRARIES} ${VTK_LIBRARIES} ${JPEG_LIBRARIES} ${PNG_LIBRARIES})
 
 
+ADD_EXECUTABLE  (tool ./src/tools.cpp ./include/tools.h ./src/toolsApp.cpp)
+
+TARGET_LINK_LIBRARIES (tool)
+
+
 

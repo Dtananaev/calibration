@@ -114,6 +114,19 @@ calibration/fast:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/build
 .PHONY : calibration/fast
 
+#=============================================================================
+# Target rules for targets named tool
+
+# Build rule for target.
+tool: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tool
+.PHONY : tool
+
+# fast build rule for target.
+tool/fast:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/build
+.PHONY : tool/fast
+
 include/moc_loader.o: include/moc_loader.cxx.o
 .PHONY : include/moc_loader.o
 
@@ -234,6 +247,54 @@ src/pclviewer.cpp.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/pclviewer.cpp.s
 .PHONY : src/pclviewer.cpp.s
 
+src/tools.o: src/tools.cpp.o
+.PHONY : src/tools.o
+
+# target to build an object file
+src/tools.cpp.o:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.o
+.PHONY : src/tools.cpp.o
+
+src/tools.i: src/tools.cpp.i
+.PHONY : src/tools.i
+
+# target to preprocess a source file
+src/tools.cpp.i:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.i
+.PHONY : src/tools.cpp.i
+
+src/tools.s: src/tools.cpp.s
+.PHONY : src/tools.s
+
+# target to generate assembly for a file
+src/tools.cpp.s:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.s
+.PHONY : src/tools.cpp.s
+
+src/toolsApp.o: src/toolsApp.cpp.o
+.PHONY : src/toolsApp.o
+
+# target to build an object file
+src/toolsApp.cpp.o:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/toolsApp.cpp.o
+.PHONY : src/toolsApp.cpp.o
+
+src/toolsApp.i: src/toolsApp.cpp.i
+.PHONY : src/toolsApp.i
+
+# target to preprocess a source file
+src/toolsApp.cpp.i:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/toolsApp.cpp.i
+.PHONY : src/toolsApp.cpp.i
+
+src/toolsApp.s: src/toolsApp.cpp.s
+.PHONY : src/toolsApp.s
+
+# target to generate assembly for a file
+src/toolsApp.cpp.s:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/toolsApp.cpp.s
+.PHONY : src/toolsApp.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -243,6 +304,7 @@ help:
 	@echo "... calibration"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... tool"
 	@echo "... include/moc_loader.o"
 	@echo "... include/moc_loader.i"
 	@echo "... include/moc_loader.s"
@@ -258,6 +320,12 @@ help:
 	@echo "... src/pclviewer.o"
 	@echo "... src/pclviewer.i"
 	@echo "... src/pclviewer.s"
+	@echo "... src/tools.o"
+	@echo "... src/tools.i"
+	@echo "... src/tools.s"
+	@echo "... src/toolsApp.o"
+	@echo "... src/toolsApp.i"
+	@echo "... src/toolsApp.s"
 .PHONY : help
 
 
