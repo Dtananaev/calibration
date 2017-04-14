@@ -1,2 +1,3 @@
 /home/denis/calibration/build/CMakeFiles/calibration.dir
+/home/denis/calibration/build/CMakeFiles/im2g.dir
 /home/denis/calibration/build/CMakeFiles/tool.dir

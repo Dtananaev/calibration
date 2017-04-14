@@ -115,6 +115,19 @@ calibration/fast:
 .PHONY : calibration/fast
 
 #=============================================================================
+# Target rules for targets named im2g
+
+# Build rule for target.
+im2g: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 im2g
+.PHONY : im2g
+
+# fast build rule for target.
+im2g/fast:
+	$(MAKE) -f CMakeFiles/im2g.dir/build.make CMakeFiles/im2g.dir/build
+.PHONY : im2g/fast
+
+#=============================================================================
 # Target rules for targets named tool
 
 # Build rule for target.
@@ -126,6 +139,30 @@ tool: cmake_check_build_system
 tool/fast:
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/build
 .PHONY : tool/fast
+
+external/others/include/NMath.o: external/others/include/NMath.cpp.o
+.PHONY : external/others/include/NMath.o
+
+# target to build an object file
+external/others/include/NMath.cpp.o:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.o
+.PHONY : external/others/include/NMath.cpp.o
+
+external/others/include/NMath.i: external/others/include/NMath.cpp.i
+.PHONY : external/others/include/NMath.i
+
+# target to preprocess a source file
+external/others/include/NMath.cpp.i:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.i
+.PHONY : external/others/include/NMath.cpp.i
+
+external/others/include/NMath.s: external/others/include/NMath.cpp.s
+.PHONY : external/others/include/NMath.s
+
+# target to generate assembly for a file
+external/others/include/NMath.cpp.s:
+	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.s
+.PHONY : external/others/include/NMath.cpp.s
 
 include/moc_loader.o: include/moc_loader.cxx.o
 .PHONY : include/moc_loader.o
@@ -174,6 +211,30 @@ include/moc_pclviewer.s: include/moc_pclviewer.cxx.s
 include/moc_pclviewer.cxx.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.s
 .PHONY : include/moc_pclviewer.cxx.s
+
+src/jpg2pgm.o: src/jpg2pgm.cpp.o
+.PHONY : src/jpg2pgm.o
+
+# target to build an object file
+src/jpg2pgm.cpp.o:
+	$(MAKE) -f CMakeFiles/im2g.dir/build.make CMakeFiles/im2g.dir/src/jpg2pgm.cpp.o
+.PHONY : src/jpg2pgm.cpp.o
+
+src/jpg2pgm.i: src/jpg2pgm.cpp.i
+.PHONY : src/jpg2pgm.i
+
+# target to preprocess a source file
+src/jpg2pgm.cpp.i:
+	$(MAKE) -f CMakeFiles/im2g.dir/build.make CMakeFiles/im2g.dir/src/jpg2pgm.cpp.i
+.PHONY : src/jpg2pgm.cpp.i
+
+src/jpg2pgm.s: src/jpg2pgm.cpp.s
+.PHONY : src/jpg2pgm.s
+
+# target to generate assembly for a file
+src/jpg2pgm.cpp.s:
+	$(MAKE) -f CMakeFiles/im2g.dir/build.make CMakeFiles/im2g.dir/src/jpg2pgm.cpp.s
+.PHONY : src/jpg2pgm.cpp.s
 
 src/loader.o: src/loader.cpp.o
 .PHONY : src/loader.o
@@ -303,14 +364,21 @@ help:
 	@echo "... depend"
 	@echo "... calibration"
 	@echo "... edit_cache"
+	@echo "... im2g"
 	@echo "... rebuild_cache"
 	@echo "... tool"
+	@echo "... external/others/include/NMath.o"
+	@echo "... external/others/include/NMath.i"
+	@echo "... external/others/include/NMath.s"
 	@echo "... include/moc_loader.o"
 	@echo "... include/moc_loader.i"
 	@echo "... include/moc_loader.s"
 	@echo "... include/moc_pclviewer.o"
 	@echo "... include/moc_pclviewer.i"
 	@echo "... include/moc_pclviewer.s"
+	@echo "... src/jpg2pgm.o"
+	@echo "... src/jpg2pgm.i"
+	@echo "... src/jpg2pgm.s"
 	@echo "... src/loader.o"
 	@echo "... src/loader.i"
 	@echo "... src/loader.s"
