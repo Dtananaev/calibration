@@ -23,11 +23,12 @@ class tools{
 public:
     tools();
     ~tools();
-    typedef  struct{
-    std::vector<std::pair<int, int> > coord;
-    std::vector<float > val;
-    }corner;
 
+    typedef  struct{
+        float theta;
+        float rho;        
+        std::vector<std::pair<float, float> > intersect;
+    }lines;
     //additional tools
     void minMax(CMatrix<float> image, float& min,float& max);
     void diffXY(CMatrix<float> Image,  CMatrix<float> &dx, CMatrix<float> &dy);
@@ -45,7 +46,7 @@ public:
 
     //based on morphological operation filter for local maximum search (used for Harris corner filtering)
     CMatrix<float> DilationFilter(CMatrix<float> image, int radius);
-    CMatrix<float> getLocalMaximum(CMatrix<float> corners, float patch_radius);
+    std::set<std::pair<float, float> > getALLCornerCoordinates(CMatrix<float> corners, float patch_radius=3);
     //Sobel algorithm
     void SobelEdgeDetector(CMatrix<float> image, CMatrix<float>& Gx,CMatrix<float>& Gy,CMatrix<float>& orient,CMatrix<float>& edges);
     void rounder(float& degrees);
@@ -60,16 +61,43 @@ public:
 
 
     //Hough transforms
-    CTensor<float> extractHoughLines(CMatrix<float> edges, CMatrix<float> image);
+    CTensor<float> extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2);
     CMatrix<float> HoughTransform(CMatrix<float> edges,std::vector<int>& theta,std::vector<int>& rho);
     std::vector<std::pair<int,int> > HoughPeaks(CMatrix<float> Hough, int num_peaks);
     std::vector<std::pair<int,int> >  AllHoughPeaks(CMatrix<float> Hough, float treshold); 
     CMatrix<float> secondHoughTransform(std::vector<std::pair<int,int> >  lines,std::vector<int> theta,std::vector<int> rho);
 
-CTensor<float> drawLine(float rho,float theta, CMatrix<float> image);
 
 
-    
+    //find chess board
+    void findChessBoardLines(std::vector<std::pair<float,float> > l1, 
+                             std::vector<std::pair<float,float> > l2, 
+                             std::set< std::pair<float,float> > cornerList, 
+                             float dist2corner,
+                             CMatrix<float> image);
+
+
+    void getIntersections(   std::vector<lines>& Lhorizontal,
+                             std::vector<lines>& Lvertical,
+                             std::vector<std::pair<float,float> > l1, 
+                             std::vector<std::pair<float,float> > l2, 
+                             std::set< std::pair<float,float> > cornerList, 
+                             float dist2corner);
+
+    void removeOutlierLines(std::vector<lines> Lhorizontal,
+                           std::vector<lines> Lvertical,
+                           std::vector<std::pair<float,float> >& l1, 
+                           std::vector<std::pair<float,float> >& l2,
+                           int minIntersect);
+    void removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
+                           std::vector<lines>& Lvertical);
+
+    //draw Hough lines on top of image
+     CTensor<float> drawAllLine(std::vector<std::pair<float,float> > l1, 
+                                  std::vector<std::pair<float,float> > l2, 
+                                  CMatrix<float> image);
+     CTensor<float> drawLine(float rho,float theta, CMatrix<float> image);
+
 private:
 
 };
