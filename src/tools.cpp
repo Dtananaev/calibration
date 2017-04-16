@@ -13,6 +13,8 @@ tools::tools(){
 tools::~tools(){
 }
 
+
+
 //Gaussian Kernel 2D
 CMatrix<float> tools::GaussKernel(int radius){
 
@@ -349,6 +351,23 @@ std::vector<std::pair<int,int> > tools::HoughPeaks(CMatrix<float> Hough, int num
 
     return result;
 } 
+CMatrix<float> tools::makeBinary(CMatrix<float> image){
+    CMatrix<float> result(image.xSize(),image.ySize());
+        for (int y=0;y<image.ySize();++y){
+        for (int x=0;x<image.xSize();++x){
+
+               if(image(x,y)>=127){
+                result(x,y)=1;
+            } else{ 
+                 result(x,y)=0;                           
+        }
+        }
+    }
+
+    return result;
+}
+
+
 
 CMatrix<float> tools::CannyEdgeDetector(CMatrix<float> image){
     CMatrix<float> Gx;
@@ -372,21 +391,136 @@ CMatrix<float> tools::CannyEdgeDetector(CMatrix<float> image){
 }
 
 
-CTensor<float> tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image){
-
-   CTensor<float> lines(edges.xSize(),edges.ySize(),3,0);
-     std::vector<int> theta,rho;
-
-    CMatrix<float> H=HoughTransform( edges,theta,rho);
-
-    std::vector<std::pair<int,int> > temp=HoughPeaks(H, 18);
+CTensor<float> tools::drawLine(float rho,float theta, CMatrix<float> image){
+   CTensor<float> lines(image.xSize(),image.ySize(),3,0);
     lines.putMatrix(image,0);
     lines.putMatrix(image,1);
     lines.putMatrix(image,2);
+  float th=theta;
+     float rh=rho;
+ 
+
+            for(int x=0;x<image.xSize();++x){
+                for(int y=0;y<image.ySize();++y){
+                    if(sin(th)!=0){    
+                    float j=(rh-x*cos(th))/sin(th);
+                     if(j>=0 && j<lines.ySize()){
+                       // if(edges(x,j)==1){
+                        lines(x,j,0)=255;
+                        lines(x,j,1)=0;
+                        lines(x,j,2)=0;
+                       // }
+                    }
+                    }
+     
+                    if(cos(th)!=0){    
+                    float k=(rh-y*sin(th))/cos(th);
+                    if(k>=0 && k<lines.xSize()){
+                       //  if(edges(k,y)==1){
+                        lines(k,y,0)=255;
+                        lines(k,y,1)=0;
+                        lines(k,y,2)=0;
+                           // }
+                    }   
+                    }       
+}
+}
+return lines;
+}
+
+std::vector<std::pair<int,int> >  tools::AllHoughPeaks(CMatrix<float> Hough, float treshold){
+
+std::vector<std::pair<int,int> > result;
+    for(int y=0;y<Hough.ySize();++y){
+        for(int x=0;x<Hough.xSize();++x){
+            if(Hough(x,y)>treshold){
+                result.push_back(std::make_pair(x,y));
+                }
+                  
+             
+        }
+    }
+
+
+    return result;
+} 
+void tools::minMax(CMatrix<float> image, float& min,float& max){
+     max=0;
+     min=std::numeric_limits<float>::max();
+
+
+    for(int y=0;y<image.ySize();++y){
+    for(int x=0;x<image.xSize();++x){
+        
+        if(image(x,y)>max){max=image(x,y);}
+        if(image(x,y)<min){min=image(x,y);}
+
+    }
+    }
+
+
+}
+
+CTensor<float> tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image){
+
+   CTensor<float> lines(edges.xSize(),edges.ySize(),3,0);
+    lines.putMatrix(image,0);
+    lines.putMatrix(image,1);
+    lines.putMatrix(image,2);
+    //first Hough transform 
+    std::vector<int> theta,rho;
+    CMatrix<float> H=HoughTransform( edges,theta,rho)
+    CMatrix<float> tophat=TopHat(H, 1);
+    float min, max;
+    minMax(tophat,min,max);
+    CMatrix<float> dial= DilationFilter(tophat, 1);
+ std::vector<std::pair<int,int> > temp=AllHoughPeaks(dial, 0.25*max);
+    //second Hough transform 
+    CMatrix<float> H2=secondHoughTransform(temp,theta,rho);
+    //get first 2 maxima
+
+    std::vector<std::pair<int,int> > maximum=HoughPeaks(H2, 2);
+    std::cout<<"first "<<rho[maximum[0].second]<<" "<<theta[maximum[0].first]<<"\n"; 
+    std::cout<<"second "<<rho[maximum[1].second]<<" "<<theta[maximum[1].first]<<"\n"; 
+
+    float t21=theta[maximum[0].first]*M_PI/180;
+    float r21=rho[maximum[0].second];    
+    float t22=theta[maximum[1].first]*M_PI/180;
+    float r22=rho[maximum[1].second]; 
+std::vector<std::pair<float,float> > l1;
+std::vector<std::pair<float,float> > l2;
 
     for(int i=0;i<temp.size();i++){
-     float th=theta[temp[i].first]*M_PI/180;
-     float rh=rho[temp[i].second];
+        float th=theta[temp[i].first]*M_PI/180;
+        float rh=rho[temp[i].second];
+
+        float dist11=abs(th*cos(t21)+rh*sin(t21)-r21 );
+        float dist12=abs(th*cos(t21)+rh*sin(t21)+r21 );
+        float dist13=abs(th*cos(-t21)+rh*sin(-t21)-r21 );
+        float dist14=abs(th*cos(-t21)+rh*sin(-t21)+r21 );
+        float dist1=dist11-dist12+dist13-dist14;
+     
+        //std::cout<<"dist1 "<<dist1<<"\n";
+
+
+        if( dist1==-4 ||  dist1==4 ){
+
+        l1.push_back(std::make_pair(th,rh));
+        }else if(dist1==0 || dist1==-2 || dist1==2  ) {
+        l2.push_back(std::make_pair(th,rh));
+            }
+
+      //  CTensor<float> tempLine=drawLine(rh,th, image);
+    //tempLine.writeToPPM("../test/tempLine.ppm"); 
+      //  std::cin.get();
+    }
+
+    std::cout<<"l1 "<<l1.size()<<"\n";
+    std::cout<<"l2 "<<l2.size()<<"\n";  
+       
+    for(int i=0;i<l1.size();i++){
+     float th=l1[i].first;
+     float rh=l1[i].second;
  
 
             for(int x=0;x<lines.xSize();++x){
@@ -415,7 +549,41 @@ CTensor<float> tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> ima
          
                 }
             }
-        }   
+        } 
+
+
+    for(int i=0;i<l2.size();i++){
+     float th=l2[i].first;
+     float rh=l2[i].second;
+ 
+
+            for(int x=0;x<lines.xSize();++x){
+                for(int y=0;y<lines.ySize();++y){
+                    if(sin(th)!=0){    
+                    float j=(rh-x*cos(th))/sin(th);
+                     if(j>=0 && j<lines.ySize()){
+                       // if(edges(x,j)==1){
+                        lines(x,j,0)=0;
+                        lines(x,j,1)=255;
+                        lines(x,j,2)=0;
+                       // }
+                    }
+                    }
+     
+                    if(cos(th)!=0){    
+                    float k=(rh-y*sin(th))/cos(th);
+                    if(k>=0 && k<lines.xSize()){
+                       //  if(edges(k,y)==1){
+                        lines(k,y,0)=0;
+                        lines(k,y,1)=255;
+                        lines(k,y,2)=0;
+                           // }
+                    }   
+                    }                    
+         
+                }
+            }
+        }  
     return lines;
     
 }
@@ -464,7 +632,25 @@ CMatrix<float> tools::HoughTransform(CMatrix<float> edges,std::vector<int>& thet
  
     return Hough;
 }
+CMatrix<float> tools::secondHoughTransform(std::vector<std::pair<int,int> >  lines,std::vector<int> theta,std::vector<int> rho){
 
+      CMatrix<float> secondHough(theta.size(),rho.size(),0);
+       for(int c=0; c<lines.size();c++){
+         float t1=theta[lines[c].first]*M_PI/180;
+         float r1=rho[lines[c].second];
+            for(int i=0;i<theta.size();++i){
+                    float t2=theta[i]*M_PI/180; //radians
+                    float dist=t1*cos(t2)+r1*sin(t2);
+                    std::vector<int>::iterator low;
+                    low=std::lower_bound(rho.begin(), rho.end(), dist);
+                    int j=low-rho.begin(); //index of rho     
+                    secondHough(i,j)+=1;      
+                 }
+        
+     }
+  
+    return secondHough;
+}
 
 //  diff -0,5 0 0,5
 void tools::diffXY(CMatrix<float> Image,  CMatrix<float> &dx, CMatrix<float> &dy){
@@ -485,7 +671,33 @@ void tools::diffXY(CMatrix<float> Image,  CMatrix<float> &dx, CMatrix<float> &dy
     }
 
 }
+CMatrix<float> tools::DilationFilter(CMatrix<float> image, int radius){
 
+    int before=0;
+    int after=0;
+
+    CMatrix<float> result(image.xSize(),image.ySize(),0);
+        
+    CMatrix<float> dial=Dilation(image, radius);
+
+
+           for(int y=0;y<image.ySize();++y){
+        for(int x=0;x<image.xSize();++x){
+            if(image(x,y)!=0){
+                before+=1;
+                    if(image(x,y)==dial(x,y)){
+                    result(x,y)=image(x,y);
+                        after+=1;
+  
+                    }
+                }
+          }
+        } 
+    std::cout<<"num corners before "<<before<<"\n"; 
+    std::cout<<"num corners after "<<after<<"\n"; 
+return result;
+
+}
 CMatrix<float> tools::HarrisEdgeDetector(CMatrix<float> image, std::string regime){
     bool corners;
     float treshold;
@@ -547,7 +759,7 @@ float max=0;
               //  std::cout<<"-----------------------"<<"\n";
                // std::cin.get();
                 float trace=S(0,0)+S(1,1);
-                float R=S(0,0)*S(1,1)-0.06*trace*trace;
+                float R=S(0,0)*S(1,1)-0.05*trace*trace;
                 if(corners){
                    R>treshold ? result(x,y)=R : result(x,y)=0;
                 }else if (!corners){ 
@@ -556,72 +768,149 @@ float max=0;
 
         }
     }
-
+//CMatrix<float> nms=nonMaxSupress( result,orient);
 
 return result;
  
 } 
-CMatrix<float> tools::getLocalMaximum(CMatrix<float> corners, float max_pixel_distance){
+CMatrix<float> tools::Dilation(CMatrix<float> Inimage, int radius){
 
-    std::vector<distribution> data;
 
-    //max_pixel_distance distance which we check in order to assign the pixel to the group or make new group
-        CMatrix<float> process=corners;
-        for(int y=0;y<corners.ySize();++y){
+    CMatrix<float> result(Inimage.xSize(),Inimage.ySize());
+    CMatrix<float> image=addNeumannBoundary(Inimage,radius);
+
+    for(int y=radius;y<image.ySize()-radius;++y){
+        for(int x=radius;x<image.xSize() -radius;++x){
+               
+             float max=0;
+			for(int i=0;i<radius*2+1;i++)
+				for (int j=0;j<radius*2+1;j++)
+				{
+					if(image(x-radius+i,y-radius+j)>max){max=image(x-radius+i,y-radius+j);}
+				}
+		
+
+                result(x-radius,y-radius)=max;
+
+        }
+    }
+
+
+  
+    return result;
+}
+
+
+CMatrix<float> tools::Erosion(CMatrix<float> Inimage, int radius){
+
+
+    CMatrix<float> result(Inimage.xSize(),Inimage.ySize());
+    CMatrix<float> image=addNeumannBoundary(Inimage,radius);
+
+    for(int y=radius;y<image.ySize()-radius;++y){
+        for(int x=radius;x<image.xSize() -radius;++x){
+               
+             float min=std::numeric_limits<float>::max();
+			for(int i=0;i<radius*2+1;i++)
+				for (int j=0;j<radius*2+1;j++)
+				{
+					if(image(x-radius+i,y-radius+j)<min){min=image(x-radius+i,y-radius+j);}
+				}
+		
+
+                result(x-radius,y-radius)=min;
+
+        }
+    }
+
+
+  
+    return result;
+}
+CMatrix<float> tools::Opening(CMatrix<float> Inimage, int radius){
+    CMatrix<float> temp=Erosion(Inimage, radius);
+    CMatrix<float> result=Dilation(temp, radius);
+
+    return result;
+
+}
+CMatrix<float> tools::TopHat(CMatrix<float> Inimage, int radius){
+
+    CMatrix<float> temp=Opening(Inimage, radius);
+  CMatrix<float> result(Inimage.xSize(),Inimage.ySize());
+    for(int y=0;y<Inimage.ySize();y++){
+        for(int x=0;x<Inimage.xSize();x++){
+        result(x,y)=Inimage(x,y)-temp(x,y);
+ 
+    }
+
+    }
+
+    return result;
+
+}
+CMatrix<float> tools::getLocalMaximum(CMatrix<float> corners, float patch_radius){
+
+  int before=0;
+  int after=0;
+    corner allcorners;
+    std::set<std::pair<float,float> > Cor;
+    CMatrix<float> result(corners.xSize(),corners.ySize(),0);
+        
+    CMatrix<float> dial=Dilation(corners, patch_radius);
+
+
+           for(int y=0;y<corners.ySize();++y){
         for(int x=0;x<corners.xSize();++x){
             if(corners(x,y)!=0){
-                
-                //init data
-                if(data.size()==0){
-                         distribution temp;
-                        temp.begin=std::make_pair(x,y);
-                        temp.coord.push_back(std::make_pair(x,y));
-                        temp.val.push_back(corners(x,y));                          
-                        data.push_back(temp);           
-                }   
-                
-                //find the group
-
-                std::vector<float> distances;
-                for(int i=0; i<data.size();++i){
-                    float distx=data[i].begin.first/data[i].coord.size()-x;
-                    float disty=data[i].begin.second/data[i].coord.size()-y;
-                    float dist= sqrt(distx*distx+disty*disty);
-                    distances.push_back(dist);
-                }  
-
-                    std::vector<float>::iterator it=std::min_element(distances.begin(),distances.end());
-                    int index=it-distances.begin();
-
-                    if(*it<max_pixel_distance ){
-                      //add points to the existing group
-                        data[index].begin.first+=x;
-                        data[index].begin.second+=y;                      
-                        data[index].coord.push_back(std::make_pair(x,y)); 
-                        data[index].val.push_back(corners(x,y));                       
-                    }else{
-                         distribution temp;
-                        temp.begin=std::make_pair(x,y);
-                        temp.coord.push_back(std::make_pair(x,y));
-                        temp.val.push_back(corners(x,y));                          
-                        data.push_back(temp);  
-                    }                                
-        
-               }
-
+                before+=1;
+                    if(corners(x,y)==dial(x,y)){
+                    result(x,y)=corners(x,y);
+                        after+=1;
+                       allcorners.coord.push_back(std::make_pair(x,y));
+                       allcorners.val.push_back(corners(x,y)); 
+                    }
+                }
           }
+        } 
+    std::cout<<"num corners before "<<before<<"\n"; 
+    std::cout<<"num corners after "<<after<<"\n"; 
+    int treshold =5;//pixels
+
+
+
+    for(int i=0;i<allcorners.coord.size();++i){
+                float x1=allcorners.coord[i].first;
+                float y1=allcorners.coord[i].second;  
+                float X=x1;
+                float Y=y1;
+                int counter=1;
+          for(int j=0; j<allcorners.coord.size();++j){
+
+                float x2=allcorners.coord[j].first;
+                float y2=allcorners.coord[j].second;
+                float distance=sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+                    //std::cout<<"distance "<<distance<<"\n";
+                   // std::cin.get();
+                    if(distance<treshold && distance!=0){
+ // std::cout<<"distance "<<distance<<"\n";
+                  //  std::cin.get();
+                        X+=x2;
+                        Y+=y2;
+                        counter+=1;
+                    }
+                
         }
-    
-    CMatrix<float> result(corners.xSize(),corners.ySize(),0);
-    std::cout<<"data "<<data.size()<<"\n";
-    for(int i=0;i<data.size();i++){
-        for(int j=0;j<data[i].coord.size();j++){
-            int x = data[i].coord[j].first;
-            int y = data[i].coord[j].second;
-            float val=data[i].val[j];
-            result(x,y)=val;
-        }   
+        X=X/counter;
+        Y=Y/counter;
+          Cor.insert(std::make_pair(X,Y));
     }
+
+    
+
+    
+    std::cout<<"final corners "<<Cor.size()<<"\n";
+
     return result;
 }
 

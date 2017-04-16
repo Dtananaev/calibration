@@ -6,29 +6,18 @@ int main(){
 
     CMatrix<float> image;
     tools t;
-    image.readFromPGM("../test/CalibIm1.pgm");
-    CMatrix<float> image1=image;    
+    image.readFromPGM("../test/CalibIm3.pgm");
+//image.readFromPGM("../test/frame.pgm");
+    CMatrix<float> image1=image;   
+    CMatrix<float> edges=t.CannyEdgeDetector(image1); 
     CMatrix<float> result =t.HarrisEdgeDetector(image);
-    CMatrix<float> result2 = t.getLocalMaximum(result, 256);
+    CTensor<float> lines=t.extractHoughLines(edges,image);  
+    CMatrix<float> lmaximum=t.getLocalMaximum( result, 3);
 
-
-
-float diff=0;
-    for(int x=0;x<result.xSize();x++){
-    for(int y=0;y<result.ySize();y++){
-
-diff+=result(x,y)-result2(x,y);
-    
-        }
-
-
-    }
-
-std::cout<<"difference "<<diff<<"\n";
+   lmaximum.normalize(0,255);
+   lmaximum.writeToPGM("../test/lmaximum.pgm");
     result.normalize(0,255);
-result2.normalize(0,255);
-    result.writeToPGM("../test/result.pgm");    
-    result2.writeToPGM("../test/result2.pgm");   
- 
-
+    result.writeToPGM("../test/Harris.pgm"); 
+   
+    lines.writeToPPM("../test/lines.ppm");
 }
