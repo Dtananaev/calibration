@@ -82,13 +82,21 @@ public:
                              std::vector<std::pair<float,float> > l1, 
                              std::vector<std::pair<float,float> > l2, 
                              std::set< std::pair<float,float> > cornerList, 
-                             float dist2corner);
-
+                             float dist2corner,bool total_num_intersect=false);
+    //step 1 filtering of the lines (remove outliers outside of the chessbox)
     void removeOutlierLines(std::vector<lines> Lhorizontal,
                            std::vector<lines> Lvertical,
                            std::vector<std::pair<float,float> >& l1, 
                            std::vector<std::pair<float,float> >& l2,
                            int minIntersect);
+    //step 2 filtering of the lines (remove parallel lines inside chessbox which has the same set of corners)
+    void cornersVSlines(std::vector<lines>& Lhorizontal,
+                             std::vector<lines>& Lvertical,
+                             std::vector<std::pair<float,float> > l1, 
+                             std::vector<std::pair<float,float> > l2, 
+                             std::set< std::pair<float,float> > cornerList, 
+                             float dist2corner,CMatrix<float> image);
+
     void removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
                            std::vector<lines>& Lvertical);
 

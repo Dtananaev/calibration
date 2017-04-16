@@ -908,25 +908,28 @@ void tools::findChessBoardLines(std::vector<std::pair<float,float> > l1,
     //The function searches for the intersection of the lines it accepts intersections in the dist2corner dist
     std::vector<lines> Lhorizontal;
     std::vector<lines> Lvertical;
-     int treshold=1;   
+     int treshold=2;   
     std::cout<<"lines before l1 "<<l1.size()<<" l2 "<<l2.size()<<"\n";
        int size_H=l1.size();
         int size_V=l2.size();
+        float coeff=0.5;
+        int counter=0;
     do{
-        treshold+=0.75;
+        
+        
          size_H=l1.size();
          size_V=l2.size();
-        getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList, dist2corner);
+        getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList,coeff* dist2corner);
         removeOutlierLines(Lhorizontal,Lvertical,l1,l2,treshold);
-  //  treshold+=1;
-  //  if(treshold>5){treshold=5;}
+        treshold+=0.5; 
+         coeff+=0.1;        
     }while(size_H!=l1.size() &&size_V!=l2.size());
-
-    getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList, dist2corner);
+    cornersVSlines( Lhorizontal, Lvertical, l1,  l2,  cornerList,  dist2corner,image);
+    getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList,1.25*dist2corner);
 
     std::cout<<"lines after l1 "<<l1.size()<<" l2 "<<l2.size()<<"\n";
      CTensor<float> lines=drawAllLine( l1, l2, image);
-lines.writeToPPM("../test/filterLine.ppm");
+    lines.writeToPPM("../test/filterLine.ppm");
 
      removeChessBoardOutliersLines(Lhorizontal,Lvertical);
         
@@ -1004,7 +1007,7 @@ void tools::getIntersections(std::vector<lines>& Lhorizontal,
                              std::vector<std::pair<float,float> > l1, 
                              std::vector<std::pair<float,float> > l2, 
                              std::set< std::pair<float,float> > cornerList, 
-                             float dist2corner){
+                             float dist2corner, bool total_num_intersect){
 
 
 
@@ -1020,7 +1023,8 @@ void tools::getIntersections(std::vector<lines>& Lhorizontal,
      lines l;
      l.theta=t1;
      l.rho=r1;
-    
+    if(total_num_intersect){temp=cornerList;}    
+
         for(int v=0; v<l2.size();++v){
             //find intersection between two lines
                 float t2=l2[v].first;
@@ -1048,13 +1052,13 @@ void tools::getIntersections(std::vector<lines>& Lhorizontal,
     }
      //same code for filtering out the vertical lines
      temp=cornerList; 
-    for(int h=0; h<l2.size();++h ){
+    for(int h=l2.size()-1; h>=0;--h ){
      float t1=l2[h].first;
      float r1=l2[h].second;
      lines l;
      l.theta=t1;
      l.rho=r1;
-
+   if(total_num_intersect){temp=cornerList;}  
         for(int v=0; v<l1.size();++v){
             //find intersection between two lines
                 float t2=l1[v].first;
@@ -1121,7 +1125,7 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
     int counter=0;
     int size_H= Lhorizontal.size();
      int size_V= Lvertical.size();  
-    int n=2;
+    int n=1;
     do{
 
         counter+=1;
@@ -1130,7 +1134,8 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
     //compute mean for horizontl lines
     float meanH=0;
     for(int i=0;i<Lhorizontal.size();i++){
-            meanH+=Lhorizontal[i].intersect.size();            
+            meanH+=Lhorizontal[i].intersect.size(); 
+            std::cout<<"horizontal["<<i<<"]"<<Lhorizontal[i].intersect.size()<<"\n";           
     }
   
 
@@ -1140,16 +1145,16 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
     std::cout<<"meanH "<<meanH<<"\n";
     //compute mean for vertical lines
     float meanV=0;
-
+    std::cin.get();
     for(int i=0;i<Lvertical.size();i++){
             meanV+=Lvertical[i].intersect.size();            
     }
     meanV=meanV/(Lvertical.size()+n);
-    float mean=(meanH+meanV)/2;
+    //float mean=(meanH+meanV)/2;
     for( std::vector<lines>::iterator it=Lhorizontal.begin();it!=Lhorizontal.end();){
       
        
-     
+
         if(it->intersect.size()<meanH){
 
             Lhorizontal.erase(it);
@@ -1175,7 +1180,7 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
         }
 
     }
-    n+=1;
+    
     std::cout<<"size H current "<<Lhorizontal.size()<<"\n";
     std::cout<<"size W current "<<Lvertical.size()<<"\n";
     } while(size_H!=Lhorizontal.size() );
@@ -1184,3 +1189,148 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
     std::cout<<"number iterations"<<counter<<"\n";
 }
 
+
+
+void tools::cornersVSlines(std::vector<lines>& Lhorizontal,
+                             std::vector<lines>& Lvertical,
+                             std::vector<std::pair<float,float> > l1, 
+                             std::vector<std::pair<float,float> > l2, 
+                             std::set< std::pair<float,float> > cornerList, 
+                             float dist2corner, CMatrix<float> image){
+
+
+    getIntersections( Lhorizontal,Lvertical,l1, l2, cornerList, 0.5*dist2corner,  true);
+    //check horizontal lines
+    for(std::set< std::pair<float,float> >::iterator itr=cornerList.begin(); itr!=cornerList.end();++itr){
+          float cx=itr->first;
+          float cy= itr->second; 
+         std::vector<lines> tempLines;
+        std::vector<int> size;
+          for(int j=0;j<Lhorizontal.size();++j){
+            for(int k=0;k<Lhorizontal[j].intersect.size();k++){
+                  float x=Lhorizontal[j].intersect[k].first;      
+                  float y=Lhorizontal[j].intersect[k].second;
+                  float dist=sqrt((cx-x)*(cx-x)+(cy-y)*(cy-y));
+                 if(dist<dist2corner){
+                    tempLines.push_back(Lhorizontal[j]);
+                    size.push_back(Lhorizontal[j].intersect.size());
+                    break;
+                }
+            }
+          }  
+        std::vector<int>::iterator it=std::max_element(size.begin(),size.end());
+        int index=it-size.begin();
+        //erase lines
+        for(std::vector<lines>::iterator fst=tempLines.begin();fst!=tempLines.end();fst++){
+
+        for(std::vector<lines>::iterator scnd=Lhorizontal.begin();scnd!=Lhorizontal.end();++scnd){
+            int ind=fst-tempLines.begin();
+            if(scnd->theta==fst->theta && scnd->rho==fst->rho && ind!=index ){
+             Lhorizontal.erase(scnd);
+             break;
+            }     
+            }
+        }
+      }
+ //check vertical lines
+    for(std::set< std::pair<float,float> >::iterator itr=cornerList.begin(); itr!=cornerList.end();++itr){
+          float cx=itr->first;
+          float cy= itr->second; 
+         std::vector<lines> tempLines;
+        std::vector<int> size;
+          for(int j=0;j<Lvertical.size();++j){
+            for(int k=0;k<Lvertical[j].intersect.size();k++){
+                  float x=Lvertical[j].intersect[k].first;      
+                  float y=Lvertical[j].intersect[k].second;
+                  float dist=sqrt((cx-x)*(cx-x)+(cy-y)*(cy-y));
+                 if(dist<dist2corner){
+                    tempLines.push_back(Lvertical[j]);
+                    size.push_back(Lvertical[j].intersect.size());
+                    break;
+                }
+            }
+          }  
+        std::vector<int>::iterator it=std::max_element(size.begin(),size.end());
+        int index=it-size.begin();
+        //erase lines
+        for(std::vector<lines>::iterator fst=tempLines.begin();fst!=tempLines.end();fst++){
+
+        for(std::vector<lines>::iterator scnd=Lvertical.begin();scnd!=Lvertical.end();++scnd){
+            int ind=fst-tempLines.begin();
+            if(scnd->theta==fst->theta && scnd->rho==fst->rho && ind!=index ){
+             Lvertical.erase(scnd);
+             break;
+            }     
+            }
+        }
+      }
+       
+
+   CTensor<float> lines1(image.xSize(),image.ySize(),3,0);
+    lines1.putMatrix(image,0);
+    lines1.putMatrix(image,1);
+    lines1.putMatrix(image,2);
+
+
+  for(int i=0;i<Lhorizontal.size();i++){
+     float th=Lhorizontal[i].theta;
+     float rh=Lhorizontal[i].rho;
+ 
+
+            for(int x=0;x<lines1.xSize();++x){
+                for(int y=0;y<lines1.ySize();++y){
+                    if(sin(th)!=0){    
+                    float j=(rh-x*cos(th))/sin(th);
+                     if(j>=0 && j<lines1.ySize()){
+                        lines1(x,j,0)=255;
+                        lines1(x,j,1)=0;
+                        lines1(x,j,2)=0;
+                    }
+                    }
+     
+                    if(cos(th)!=0){    
+                    float k=(rh-y*sin(th))/cos(th);
+                    if(k>=0 && k<lines1.xSize()){
+                        lines1(k,y,0)=255;
+                        lines1(k,y,1)=0;
+                        lines1(k,y,2)=0;
+                    }   
+                    }                    
+         
+                }
+            }
+        } 
+
+
+    for(int i=0;i<Lvertical.size();i++){
+     float th=Lvertical[i].theta;
+     float rh=Lvertical[i].rho;
+ 
+
+            for(int x=0;x<lines1.xSize();++x){
+                for(int y=0;y<lines1.ySize();++y){
+                    if(sin(th)!=0){    
+                    float j=(rh-x*cos(th))/sin(th);
+                     if(j>=0 && j<lines1.ySize()){
+                        lines1(x,j,0)=0;
+                        lines1(x,j,1)=255;
+                        lines1(x,j,2)=0;
+                    }
+                    }
+     
+                    if(cos(th)!=0){    
+                    float k=(rh-y*sin(th))/cos(th);
+                    if(k>=0 && k<lines1.xSize()){
+                        lines1(k,y,0)=0;
+                        lines1(k,y,1)=255;
+                        lines1(k,y,2)=0;
+                    }   
+                    }                    
+         
+                }
+            }
+        }  
+ lines1.writeToPPM("../test/c.ppm");
+
+
+}
