@@ -934,7 +934,7 @@ void tools::findChessBoardLines(std::vector<std::pair<float,float> > l1,
     lines.writeToPPM("../test/filterLine.ppm");
 
      removeChessBoardOutliersLines(Lhorizontal,Lvertical);
-        
+       getFinalSetOfLines( Lhorizontal, Lvertical,l1, l2, image);
    CTensor<float> lines1(image.xSize(),image.ySize(),3,0);
     lines1.putMatrix(image,0);
     lines1.putMatrix(image,1);
@@ -1194,148 +1194,117 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
     std::cout<<"number iterations"<<counter<<"\n";
 }
 
+void tools::getFinalSetOfLines(std::vector<lines> Lhorizontal,
+                           std::vector<lines> Lvertical,
+                           std::vector<std::pair<float,float> >& l1, 
+                           std::vector<std::pair<float,float> >& l2, CMatrix<float> image){
 
 
-void tools::cornersVSlines(std::vector<lines>& Lhorizontal,
-                             std::vector<lines>& Lvertical,
-                             std::vector<std::pair<float,float> > l1, 
-                             std::vector<std::pair<float,float> > l2, 
-                             std::set< std::pair<float,float> > cornerList, 
-                             float dist2corner, CMatrix<float> image){
+    l1.clear();
+    l2.clear();
 
+    for(int i=0;i<Lhorizontal.size();++i){
+        l1.push_back(std::make_pair(Lhorizontal[i].theta,Lhorizontal[i].rho));
 
-    getIntersections( Lhorizontal,Lvertical,l1, l2, cornerList, 0.5*dist2corner,  true);
-    //check horizontal lines
-    for(std::set< std::pair<float,float> >::iterator itr=cornerList.begin(); itr!=cornerList.end();++itr){
-          float cx=itr->first;
-          float cy= itr->second; 
-         std::vector<lines> tempLines;
-        std::vector<int> size;
-          for(int j=0;j<Lhorizontal.size();++j){
-            for(int k=0;k<Lhorizontal[j].intersect.size();k++){
-                  float x=Lhorizontal[j].intersect[k].first;      
-                  float y=Lhorizontal[j].intersect[k].second;
-                  float dist=sqrt((cx-x)*(cx-x)+(cy-y)*(cy-y));
-                 if(dist<dist2corner){
-                    tempLines.push_back(Lhorizontal[j]);
-                    size.push_back(Lhorizontal[j].intersect.size());
-                    break;
-                }
-            }
-          }  
-        std::vector<int>::iterator it=std::max_element(size.begin(),size.end());
-        int index=it-size.begin();
-        //erase lines
-        for(std::vector<lines>::iterator fst=tempLines.begin();fst!=tempLines.end();fst++){
+}
 
-        for(std::vector<lines>::iterator scnd=Lhorizontal.begin();scnd!=Lhorizontal.end();++scnd){
-            int ind=fst-tempLines.begin();
-            if(scnd->theta==fst->theta && scnd->rho==fst->rho && ind!=index ){
-             Lhorizontal.erase(scnd);
-             break;
-            }     
-            }
-        }
-      }
- //check vertical lines
-    for(std::set< std::pair<float,float> >::iterator itr=cornerList.begin(); itr!=cornerList.end();++itr){
-          float cx=itr->first;
-          float cy= itr->second; 
-         std::vector<lines> tempLines;
-        std::vector<int> size;
-          for(int j=0;j<Lvertical.size();++j){
-            for(int k=0;k<Lvertical[j].intersect.size();k++){
-                  float x=Lvertical[j].intersect[k].first;      
-                  float y=Lvertical[j].intersect[k].second;
-                  float dist=sqrt((cx-x)*(cx-x)+(cy-y)*(cy-y));
-                 if(dist<dist2corner){
-                    tempLines.push_back(Lvertical[j]);
-                    size.push_back(Lvertical[j].intersect.size());
-                    break;
-                }
-            }
-          }  
-        std::vector<int>::iterator it=std::max_element(size.begin(),size.end());
-        int index=it-size.begin();
-        //erase lines
-        for(std::vector<lines>::iterator fst=tempLines.begin();fst!=tempLines.end();fst++){
+    for(int i=0;i<Lvertical.size();++i){
+        l2.push_back(std::make_pair(Lvertical[i].theta,Lvertical[i].rho));
+}
+    std::cout<<"l1 before "<<l1.size()<<"\n";
+    std::cout<<"l2 before "<<l2.size()<<"\n";
+    sortLines( l1,  l2);
+    std::cout<<"l1 after "<<l1.size()<<"\n";
+    std::cout<<"l2 after "<<l2.size()<<"\n";
+    for(int i=0; i<l1.size();++i){
+    std::cout<<"line H "<<i<<"\n";
+    std::cout<<"theta "<<l1[i].first<<" rho "<<l1[i].second<<"\n";
+    CTensor<float> l= drawLine(l1[i].second,l1[i].first,image);
+    l.writeToPPM("../test/finalLine.ppm");
+    std::cin.get();
+    }
 
-        for(std::vector<lines>::iterator scnd=Lvertical.begin();scnd!=Lvertical.end();++scnd){
-            int ind=fst-tempLines.begin();
-            if(scnd->theta==fst->theta && scnd->rho==fst->rho && ind!=index ){
-             Lvertical.erase(scnd);
-             break;
-            }     
-            }
-        }
-      }
-       
-
-   CTensor<float> lines1(image.xSize(),image.ySize(),3,0);
-    lines1.putMatrix(image,0);
-    lines1.putMatrix(image,1);
-    lines1.putMatrix(image,2);
-
-
-  for(int i=0;i<Lhorizontal.size();i++){
-     float th=Lhorizontal[i].theta;
-     float rh=Lhorizontal[i].rho;
- 
-
-            for(int x=0;x<lines1.xSize();++x){
-                for(int y=0;y<lines1.ySize();++y){
-                    if(sin(th)!=0){    
-                    float j=(rh-x*cos(th))/sin(th);
-                     if(j>=0 && j<lines1.ySize()){
-                        lines1(x,j,0)=255;
-                        lines1(x,j,1)=0;
-                        lines1(x,j,2)=0;
-                    }
-                    }
-     
-                    if(cos(th)!=0){    
-                    float k=(rh-y*sin(th))/cos(th);
-                    if(k>=0 && k<lines1.xSize()){
-                        lines1(k,y,0)=255;
-                        lines1(k,y,1)=0;
-                        lines1(k,y,2)=0;
-                    }   
-                    }                    
-         
-                }
-            }
-        } 
-
-
-    for(int i=0;i<Lvertical.size();i++){
-     float th=Lvertical[i].theta;
-     float rh=Lvertical[i].rho;
- 
-
-            for(int x=0;x<lines1.xSize();++x){
-                for(int y=0;y<lines1.ySize();++y){
-                    if(sin(th)!=0){    
-                    float j=(rh-x*cos(th))/sin(th);
-                     if(j>=0 && j<lines1.ySize()){
-                        lines1(x,j,0)=0;
-                        lines1(x,j,1)=255;
-                        lines1(x,j,2)=0;
-                    }
-                    }
-     
-                    if(cos(th)!=0){    
-                    float k=(rh-y*sin(th))/cos(th);
-                    if(k>=0 && k<lines1.xSize()){
-                        lines1(k,y,0)=0;
-                        lines1(k,y,1)=255;
-                        lines1(k,y,2)=0;
-                    }   
-                    }                    
-         
-                }
-            }
-        }  
- lines1.writeToPPM("../test/c.ppm");
+    for(int i=0; i<l2.size();++i){
+    std::cout<<"line V "<<i<<"\n";
+    std::cout<<"theta "<<l2[i].first<<" rho "<<l2[i].second<<"\n";
+    CTensor<float> l= drawLine(l2[i].second,l2[i].first,image);
+    l.writeToPPM("../test/finalLine.ppm");
+    std::cin.get();
+    }
 
 
 }
+
+void tools::sortLines(std::vector<std::pair<float,float> >& l1, 
+                      std::vector<std::pair<float,float> >& l2){
+
+    //sort vertical lines
+    float t1=l1[0].first;
+    float r1=l1[0].second; 
+    std::vector<float > xysort;
+    std::vector<std::pair<float,float> > linestemp;
+    
+    for(int v=0; v<l2.size();++v){
+            //find intersection between two lines
+                float t2=l2[v].first;
+                float r2=l2[v].second;
+                if(sin(t1-t2)!=0 && sin(t2-t1)!=0){               
+                    float x=(r2*sin(t1)-r1*sin(t2))/sin(t1-t2);
+                    float y=(r2*cos(t1)-r1*cos(t2))/sin(t2-t1);
+                    float dist=sqrt(x*x+y*y);
+                  
+                    xysort.push_back(dist);   
+                    }                    
+                } 
+       
+    while(xysort.size()!=0){
+        std::vector<float>::iterator it=std::min_element(xysort.begin(),xysort.end());
+        int index=it-xysort.begin();
+   
+        std::cin.get();
+        linestemp.push_back(l2[index]); 
+        l2.erase(l2.begin()+index);
+        xysort.erase(it);
+        
+    }
+
+
+    l2=linestemp;
+
+
+
+
+
+   //sort horizontal lines
+     t1=l2[0].first;
+     r1=l2[0].second; 
+    linestemp.clear();
+    xysort.clear(); 
+    
+    for(int v=0; v<l1.size();++v){
+            //find intersection between two lines
+                float t2=l1[v].first;
+                float r2=l1[v].second;
+                if(sin(t1-t2)!=0 && sin(t2-t1)!=0){               
+                    float x=(r2*sin(t1)-r1*sin(t2))/sin(t1-t2);
+                    float y=(r2*cos(t1)-r1*cos(t2))/sin(t2-t1);
+                    float dist=sqrt(x*x+y*y);
+      
+                    xysort.push_back(dist);   
+                    }                    
+                }
+   
+        
+    while(xysort.size()!=0){
+       std::vector<float>::iterator itr=std::min_element(xysort.begin(),xysort.end());
+        int index=itr-xysort.begin();
+        linestemp.push_back(l1[index]);
+        l1.erase(l1.begin()+index);
+
+        xysort.erase(itr);
+    }
+
+
+   l1=linestemp ;
+}
+
