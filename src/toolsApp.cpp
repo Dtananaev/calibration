@@ -6,8 +6,8 @@ int main(){
 
     CMatrix<float> image;
     tools t;
-    //image.readFromPGM("../test/CalibIm5.pgm");
-    image.readFromPGM("../test/frame.pgm");
+   // image.readFromPGM("../test/CalibIm5.pgm");
+    image.readFromPGM("../test/frame7.pgm");
     CMatrix<float> image1=image;   
     CMatrix<float> edges=t.CannyEdgeDetector(image1); 
     CMatrix<float> result =t.HarrisEdgeDetector(image);

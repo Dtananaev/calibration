@@ -540,7 +540,7 @@ CTensor<float> tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> ima
     float min, max;
     minMax(tophat,min,max);
     CMatrix<float> dial= DilationFilter(tophat, 1);
-    std::vector<std::pair<int,int> > temp=AllHoughPeaks(dial, 0.25*max);
+    std::vector<std::pair<int,int> > temp=AllHoughPeaks(dial, 0.2*max);
     //second Hough transform 
     CMatrix<float> H2=secondHoughTransform(temp,theta,rho);
     CMatrix<float> dial2= DilationFilter(H2, 1);
@@ -908,24 +908,26 @@ void tools::findChessBoardLines(std::vector<std::pair<float,float> > l1,
     //The function searches for the intersection of the lines it accepts intersections in the dist2corner dist
     std::vector<lines> Lhorizontal;
     std::vector<lines> Lvertical;
-     int treshold=2;   
+     int treshold=1;   
     std::cout<<"lines before l1 "<<l1.size()<<" l2 "<<l2.size()<<"\n";
        int size_H=l1.size();
         int size_V=l2.size();
         float coeff=0.5;
         int counter=0;
     do{
-        
+        counter+=1;
         
          size_H=l1.size();
          size_V=l2.size();
         getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList,coeff* dist2corner);
         removeOutlierLines(Lhorizontal,Lvertical,l1,l2,treshold);
-        treshold+=0.5; 
-         coeff+=0.1;        
+        if(counter%2==0){
+        treshold+=1; 
+         coeff+=0.1;    
+        }    
     }while(size_H!=l1.size() &&size_V!=l2.size());
-    cornersVSlines( Lhorizontal, Lvertical, l1,  l2,  cornerList,  dist2corner,image);
-    getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList,1.25*dist2corner);
+   // cornersVSlines( Lhorizontal, Lvertical, l1,  l2,  cornerList,  dist2corner,image);
+    getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList,1.5*dist2corner,false);
 
     std::cout<<"lines after l1 "<<l1.size()<<" l2 "<<l2.size()<<"\n";
      CTensor<float> lines=drawAllLine( l1, l2, image);
@@ -1004,11 +1006,15 @@ void tools::findChessBoardLines(std::vector<std::pair<float,float> > l1,
 
 void tools::getIntersections(std::vector<lines>& Lhorizontal,
                              std::vector<lines>& Lvertical,
-                             std::vector<std::pair<float,float> > l1, 
-                             std::vector<std::pair<float,float> > l2, 
+                             std::vector<std::pair<float,float> >& l1, 
+                             std::vector<std::pair<float,float> >& l2, 
                              std::set< std::pair<float,float> > cornerList, 
-                             float dist2corner, bool total_num_intersect){
+                             float dist2corner,bool shuffle){
 
+    if(shuffle){
+    std::reverse(l1.begin(),l1.end());
+    std::reverse(l2.begin(),l2.end());
+    }
 
 
     //The function searches for the intersection of the lines it accepts intersections in the dist2corner dist
@@ -1023,7 +1029,7 @@ void tools::getIntersections(std::vector<lines>& Lhorizontal,
      lines l;
      l.theta=t1;
      l.rho=r1;
-    if(total_num_intersect){temp=cornerList;}    
+    
 
         for(int v=0; v<l2.size();++v){
             //find intersection between two lines
@@ -1039,7 +1045,7 @@ void tools::getIntersections(std::vector<lines>& Lhorizontal,
                        float xtemp=it->first;
                        float ytemp=it->second;
                        float dist=sqrt((x-xtemp)*(x-xtemp)+(y-ytemp)*(y-ytemp) );
-                           if(dist<dist2corner){
+                           if(dist<=dist2corner){
                                 l.intersect.push_back(std::make_pair(x,y));
                                 temp.erase(it++);//c++98 problem that is why  it++
                             }else{
@@ -1058,7 +1064,7 @@ void tools::getIntersections(std::vector<lines>& Lhorizontal,
      lines l;
      l.theta=t1;
      l.rho=r1;
-   if(total_num_intersect){temp=cornerList;}  
+
         for(int v=0; v<l1.size();++v){
             //find intersection between two lines
                 float t2=l1[v].first;
@@ -1072,7 +1078,7 @@ void tools::getIntersections(std::vector<lines>& Lhorizontal,
                        float xtemp=it->first;
                        float ytemp=it->second;
                        float dist=sqrt((x-xtemp)*(x-xtemp)+(y-ytemp)*(y-ytemp) );
-                           if(dist<dist2corner){
+                           if(dist<=dist2corner){
                                 l.intersect.push_back(std::make_pair(x,y));
                                 temp.erase(it++);//c++98 problem that is why  it++
                             }else{
@@ -1135,17 +1141,16 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
     float meanH=0;
     for(int i=0;i<Lhorizontal.size();i++){
             meanH+=Lhorizontal[i].intersect.size(); 
-            std::cout<<"horizontal["<<i<<"]"<<Lhorizontal[i].intersect.size()<<"\n";           
+                     
     }
   
 
 
     meanH=meanH/(Lhorizontal.size()+n);
     int index=0;
-    std::cout<<"meanH "<<meanH<<"\n";
+  
     //compute mean for vertical lines
     float meanV=0;
-    std::cin.get();
     for(int i=0;i<Lvertical.size();i++){
             meanV+=Lvertical[i].intersect.size();            
     }
@@ -1155,7 +1160,7 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
       
        
 
-        if(it->intersect.size()<meanH){
+        if(it->intersect.size()<0.8*meanH){
 
             Lhorizontal.erase(it);
 
@@ -1171,7 +1176,7 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
 
     for( std::vector<lines>::iterator it=Lvertical.begin();it!=Lvertical.end();){
 
-        if(it->intersect.size()<meanV){
+        if(it->intersect.size()<0.8*meanV){
 
             Lvertical.erase(it);
  

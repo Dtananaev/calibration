@@ -79,10 +79,10 @@ public:
 
     void getIntersections(   std::vector<lines>& Lhorizontal,
                              std::vector<lines>& Lvertical,
-                             std::vector<std::pair<float,float> > l1, 
-                             std::vector<std::pair<float,float> > l2, 
+                             std::vector<std::pair<float,float> >& l1, 
+                             std::vector<std::pair<float,float> >& l2, 
                              std::set< std::pair<float,float> > cornerList, 
-                             float dist2corner,bool total_num_intersect=false);
+                             float dist2corner,bool shuffle=true);
     //step 1 filtering of the lines (remove outliers outside of the chessbox)
     void removeOutlierLines(std::vector<lines> Lhorizontal,
                            std::vector<lines> Lvertical,

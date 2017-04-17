@@ -79,9 +79,9 @@ CMatrix<float> Convert2Grayscale(CTensor<float> image){
 }
 int main(){
 
-CTensor<float> im=GetImageData("/home/denis/calibration/pictures/frame006.jpg");
+CTensor<float> im=GetImageData("/home/denis/calibration/pictures/frame017.jpg");
 CMatrix<float> gim=Convert2Grayscale(im);
-gim.writeToPGM("/home/denis/calibration/test/frame.pgm");
+gim.writeToPGM("/home/denis/calibration/test/frame7.pgm");
 
 
 
