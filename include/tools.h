@@ -61,7 +61,7 @@ public:
 
 
     //Hough transforms
-    CTensor<float> extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2);
+    void extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2);
     CMatrix<float> HoughTransform(CMatrix<float> edges,std::vector<int>& theta,std::vector<int>& rho);
     std::vector<std::pair<int,int> > HoughPeaks(CMatrix<float> Hough, int num_peaks);
     std::vector<std::pair<int,int> >  AllHoughPeaks(CMatrix<float> Hough, float treshold); 
@@ -70,8 +70,8 @@ public:
 
 
     //find chess board
-    void findChessBoardLines(std::vector<std::pair<float,float> > l1, 
-                             std::vector<std::pair<float,float> > l2, 
+    void findChessBoardLines(std::vector<std::pair<float,float> >& l1, 
+                             std::vector<std::pair<float,float> >& l2, 
                              std::set< std::pair<float,float> > cornerList, 
                              float dist2corner,
                              CMatrix<float> image);
@@ -83,12 +83,14 @@ public:
                              std::vector<std::pair<float,float> >& l2, 
                              std::set< std::pair<float,float> > cornerList, 
                              float dist2corner,bool shuffle=true);
+
     //step 1 filtering of the lines (remove outliers outside of the chessbox)
     void removeOutlierLines(std::vector<lines> Lhorizontal,
                            std::vector<lines> Lvertical,
                            std::vector<std::pair<float,float> >& l1, 
                            std::vector<std::pair<float,float> >& l2,
                            int minIntersect);
+
     //step 2 filtering of the lines (remove parallel lines inside chessbox)
     void removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
                            std::vector<lines>& Lvertical);
@@ -105,8 +107,19 @@ public:
      CTensor<float> drawAllLine(std::vector<std::pair<float,float> > l1, 
                                   std::vector<std::pair<float,float> > l2, 
                                   CMatrix<float> image);
-     CTensor<float> drawLine(float rho,float theta, CMatrix<float> image);
 
+     void drawLine(float th,float rh, int x1, int y1, int x2, int y2, CTensor<float>& lines);
+	
+    //extract precise corner coord ordered from left to right from up to down	
+    std::vector<std::pair<float,float> > extractCornerCoordinates(CMatrix<float> HarrisCorners,
+				     std::vector<std::pair<float,float> > l1,
+                                     std::vector<std::pair<float,float> > l2,
+                                     std::set< std::pair<float,float> > cornerList, int path_radius);
+
+    CTensor<float> drawCornerLines(std::vector<std::pair<float,float> > corners,
+				     std::vector<std::pair<float,float> > l1,
+                                     std::vector<std::pair<float,float> > l2,
+				     CMatrix<float> image);
 private:
 
 };

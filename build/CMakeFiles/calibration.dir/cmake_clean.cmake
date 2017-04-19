@@ -1,17 +1,17 @@
-FILE(REMOVE_RECURSE
+file(REMOVE_RECURSE
   "ui_pclviewer.h"
-  "include/moc_pclviewer.cxx"
-  "include/moc_loader.cxx"
+  "include/moc_pclviewer.cpp"
+  "include/moc_loader.cpp"
   "CMakeFiles/calibration.dir/src/main.cpp.o"
   "CMakeFiles/calibration.dir/src/pclviewer.cpp.o"
   "CMakeFiles/calibration.dir/src/loader.cpp.o"
-  "CMakeFiles/calibration.dir/include/moc_pclviewer.cxx.o"
-  "CMakeFiles/calibration.dir/include/moc_loader.cxx.o"
+  "CMakeFiles/calibration.dir/include/moc_pclviewer.cpp.o"
+  "CMakeFiles/calibration.dir/include/moc_loader.cpp.o"
   "calibration.pdb"
   "calibration"
 )
 
 # Per-language clean rules from dependency scanning.
-FOREACH(lang CXX)
-  INCLUDE(CMakeFiles/calibration.dir/cmake_clean_${lang}.cmake OPTIONAL)
-ENDFOREACH(lang)
+foreach(lang CXX)
+  include(CMakeFiles/calibration.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

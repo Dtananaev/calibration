@@ -390,43 +390,62 @@ CMatrix<float> tools::CannyEdgeDetector(CMatrix<float> image){
     return result;
 }
 
+void tools::drawLine(float th,float rh, int x1, int y1, int x2, int y2, CTensor<float>& lines){
+	int beginx,endx, beginy,endy;
+		
+	if(y1>y2){
+	beginy=y2;
+	endy=y1;	
+	 }else{
+	beginy=y1;
+	endy=y2;
+	}
 
-CTensor<float> tools::drawLine(float rho,float theta, CMatrix<float> image){
-   CTensor<float> lines(image.xSize(),image.ySize(),3,0);
-    lines.putMatrix(image,0);
-    lines.putMatrix(image,1);
-    lines.putMatrix(image,2);
-  float th=theta;
-     float rh=rho;
- 
+	if(x1>x2){
+	beginx=x2;
+	endx=x1;	
+	 }else {
+	beginx=x1;
+	endx=x2;
+	}
+	
 
-            for(int x=0;x<image.xSize();++x){
-                for(int y=0;y<image.ySize();++y){
-                    if(sin(th)!=0){    
-                    float j=(rh-x*cos(th))/sin(th);
-                     if(j>=0 && j<lines.ySize()){
-                       // if(edges(x,j)==1){
-                        lines(x,j,0)=255;
-                        lines(x,j,1)=0;
-                        lines(x,j,2)=0;
-                       // }
-                    }
-                    }
-     
-                    if(cos(th)!=0){    
-                    float k=(rh-y*sin(th))/cos(th);
-                    if(k>=0 && k<lines.xSize()){
-                       //  if(edges(k,y)==1){
-                        lines(k,y,0)=255;
-                        lines(k,y,1)=0;
-                        lines(k,y,2)=0;
-                           // }
-                    }   
-                    }       
+	for(int x=beginx;x<=endx;++x){
+	 for(int y=beginy;y<=endy;++y){
+
+
+	  if(sin(th)!=0){    
+   	   float j=(rh-x*cos(th))/sin(th);
+
+              if(j>=beginy-1 && j<=endy+1){
+ 		  for(int tempx=x-1;tempx<x+1;++tempx){
+ 		  for(int tempy=j-1;tempy<j+1;++tempy){	
+                    lines(tempx,tempy,0)=0;
+                    lines(tempx,tempy,1)=255;
+                    lines(tempx,tempy,2)=0;
+		}
+		}
+             }
+         } 
+  
+         if(cos(th)!=0){    
+            float k=(rh-y*sin(th))/cos(th);
+            if(k>=beginx-1  && k<=endx+1){
+ 		  for(int tempx=k-1;tempx<k+1;++tempx){
+ 		  for(int tempy=y-1;tempy<y+1;++tempy){
+                    lines(tempx,tempy,0)=0;
+                    lines(tempx,tempy,1)=255;
+                    lines(tempx,tempy,2)=0;
+		}
+		}
+            }   
+        }
+      
+    }
+   } 
+
 }
-}
-return lines;
-}
+
 CTensor<float> tools::drawAllLine(std::vector<std::pair<float,float> > l1, 
                                   std::vector<std::pair<float,float> > l2, 
                                   CMatrix<float> image){
@@ -531,7 +550,7 @@ void tools::minMax(CMatrix<float> image, float& min,float& max){
 
 }
 
-CTensor<float> tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2){
+void tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2){
 
     //first Hough transform 
     std::vector<int> theta,rho;
@@ -572,11 +591,9 @@ CTensor<float> tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> ima
 
     }
 
-    std::cout<<"l1 horizontal "<<l1.size()<<"\n";
-    std::cout<<"l2 vertical "<<l2.size()<<"\n";  
-   CTensor<float> lines=drawAllLine( l1, l2, image);
-  
-    return lines;
+   std::cout<<"l1 horizontal "<<l1.size()<<"\n";
+   std::cout<<"l2 vertical "<<l2.size()<<"\n";  
+
     
 }
 
@@ -899,8 +916,8 @@ std::set<std::pair<float,float> > tools::getALLCornerCoordinates(CMatrix<float> 
     return Cor;
 }
 
-void tools::findChessBoardLines(std::vector<std::pair<float,float> > l1, 
-                                std::vector<std::pair<float,float> > l2, 
+void tools::findChessBoardLines(std::vector<std::pair<float,float> >& l1, 
+                                std::vector<std::pair<float,float> >& l2, 
                                 std::set< std::pair<float,float> > cornerList, 
                                 float dist2corner, 
                                 CMatrix<float> image){
@@ -909,7 +926,7 @@ void tools::findChessBoardLines(std::vector<std::pair<float,float> > l1,
     std::vector<lines> Lhorizontal;
     std::vector<lines> Lvertical;
      int treshold=1;   
-    std::cout<<"lines before l1 "<<l1.size()<<" l2 "<<l2.size()<<"\n";
+
        int size_H=l1.size();
         int size_V=l2.size();
         float coeff=0.5;
@@ -926,82 +943,11 @@ void tools::findChessBoardLines(std::vector<std::pair<float,float> > l1,
          coeff+=0.1;    
         }    
     }while(size_H!=l1.size() &&size_V!=l2.size());
-   // cornersVSlines( Lhorizontal, Lvertical, l1,  l2,  cornerList,  dist2corner,image);
+
     getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList,1.5*dist2corner,false);
 
-    std::cout<<"lines after l1 "<<l1.size()<<" l2 "<<l2.size()<<"\n";
-     CTensor<float> lines=drawAllLine( l1, l2, image);
-    lines.writeToPPM("../test/filterLine.ppm");
-
      removeChessBoardOutliersLines(Lhorizontal,Lvertical);
-       getFinalSetOfLines( Lhorizontal, Lvertical,l1, l2, image);
-   CTensor<float> lines1(image.xSize(),image.ySize(),3,0);
-    lines1.putMatrix(image,0);
-    lines1.putMatrix(image,1);
-    lines1.putMatrix(image,2);
-
-
-  for(int i=0;i<Lhorizontal.size();i++){
-     float th=Lhorizontal[i].theta;
-     float rh=Lhorizontal[i].rho;
- 
-
-            for(int x=0;x<lines1.xSize();++x){
-                for(int y=0;y<lines1.ySize();++y){
-                    if(sin(th)!=0){    
-                    float j=(rh-x*cos(th))/sin(th);
-                     if(j>=0 && j<lines1.ySize()){
-                        lines1(x,j,0)=255;
-                        lines1(x,j,1)=0;
-                        lines1(x,j,2)=0;
-                    }
-                    }
-     
-                    if(cos(th)!=0){    
-                    float k=(rh-y*sin(th))/cos(th);
-                    if(k>=0 && k<lines1.xSize()){
-                        lines1(k,y,0)=255;
-                        lines1(k,y,1)=0;
-                        lines1(k,y,2)=0;
-                    }   
-                    }                    
-         
-                }
-            }
-        } 
-
-
-    for(int i=0;i<Lvertical.size();i++){
-     float th=Lvertical[i].theta;
-     float rh=Lvertical[i].rho;
- 
-
-            for(int x=0;x<lines1.xSize();++x){
-                for(int y=0;y<lines1.ySize();++y){
-                    if(sin(th)!=0){    
-                    float j=(rh-x*cos(th))/sin(th);
-                     if(j>=0 && j<lines1.ySize()){
-                        lines1(x,j,0)=0;
-                        lines1(x,j,1)=255;
-                        lines1(x,j,2)=0;
-                    }
-                    }
-     
-                    if(cos(th)!=0){    
-                    float k=(rh-y*sin(th))/cos(th);
-                    if(k>=0 && k<lines1.xSize()){
-                        lines1(k,y,0)=0;
-                        lines1(k,y,1)=255;
-                        lines1(k,y,2)=0;
-                    }   
-                    }                    
-         
-                }
-            }
-        }  
- lines1.writeToPPM("../test/chessFilter.ppm");
-
-
+     getFinalSetOfLines( Lhorizontal, Lvertical,l1, l2, image);
 }
 
 void tools::getIntersections(std::vector<lines>& Lhorizontal,
@@ -1125,9 +1071,7 @@ void tools::removeOutlierLines(std::vector<lines> Lhorizontal,
 
 void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
                            std::vector<lines>& Lvertical){
-    
-    std::cout<<"size H before "<<Lhorizontal.size()<<"\n";
-    std::cout<<"size W before "<<Lvertical.size()<<"\n";
+   
     int counter=0;
     int size_H= Lhorizontal.size();
      int size_V= Lvertical.size();  
@@ -1186,8 +1130,6 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
 
     }
     
-    std::cout<<"size H current "<<Lhorizontal.size()<<"\n";
-    std::cout<<"size W current "<<Lvertical.size()<<"\n";
     } while(size_H!=Lhorizontal.size() );
     std::cout<<"size H after "<<Lhorizontal.size()<<"\n";
     std::cout<<"size W after "<<Lvertical.size()<<"\n";
@@ -1211,28 +1153,7 @@ void tools::getFinalSetOfLines(std::vector<lines> Lhorizontal,
     for(int i=0;i<Lvertical.size();++i){
         l2.push_back(std::make_pair(Lvertical[i].theta,Lvertical[i].rho));
 }
-    std::cout<<"l1 before "<<l1.size()<<"\n";
-    std::cout<<"l2 before "<<l2.size()<<"\n";
-    sortLines( l1,  l2);
-    std::cout<<"l1 after "<<l1.size()<<"\n";
-    std::cout<<"l2 after "<<l2.size()<<"\n";
-    for(int i=0; i<l1.size();++i){
-    std::cout<<"line H "<<i<<"\n";
-    std::cout<<"theta "<<l1[i].first<<" rho "<<l1[i].second<<"\n";
-    CTensor<float> l= drawLine(l1[i].second,l1[i].first,image);
-    l.writeToPPM("../test/finalLine.ppm");
-    std::cin.get();
-    }
-
-    for(int i=0; i<l2.size();++i){
-    std::cout<<"line V "<<i<<"\n";
-    std::cout<<"theta "<<l2[i].first<<" rho "<<l2[i].second<<"\n";
-    CTensor<float> l= drawLine(l2[i].second,l2[i].first,image);
-    l.writeToPPM("../test/finalLine.ppm");
-    std::cin.get();
-    }
-
-
+     sortLines( l1,  l2);
 }
 
 void tools::sortLines(std::vector<std::pair<float,float> >& l1, 
@@ -1251,8 +1172,8 @@ void tools::sortLines(std::vector<std::pair<float,float> >& l1,
                 if(sin(t1-t2)!=0 && sin(t2-t1)!=0){               
                     float x=(r2*sin(t1)-r1*sin(t2))/sin(t1-t2);
                     float y=(r2*cos(t1)-r1*cos(t2))/sin(t2-t1);
-                    float dist=sqrt(x*x+y*y);
-                  
+                    float dist=x;
+              
                     xysort.push_back(dist);   
                     }                    
                 } 
@@ -1261,7 +1182,6 @@ void tools::sortLines(std::vector<std::pair<float,float> >& l1,
         std::vector<float>::iterator it=std::min_element(xysort.begin(),xysort.end());
         int index=it-xysort.begin();
    
-        std::cin.get();
         linestemp.push_back(l2[index]); 
         l2.erase(l2.begin()+index);
         xysort.erase(it);
@@ -1288,8 +1208,7 @@ void tools::sortLines(std::vector<std::pair<float,float> >& l1,
                 if(sin(t1-t2)!=0 && sin(t2-t1)!=0){               
                     float x=(r2*sin(t1)-r1*sin(t2))/sin(t1-t2);
                     float y=(r2*cos(t1)-r1*cos(t2))/sin(t2-t1);
-                    float dist=sqrt(x*x+y*y);
-      
+                    float dist=y;//sqrt(x*x+y*y);
                     xysort.push_back(dist);   
                     }                    
                 }
@@ -1307,4 +1226,145 @@ void tools::sortLines(std::vector<std::pair<float,float> >& l1,
 
    l1=linestemp ;
 }
+
+std::vector<std::pair<float,float> > tools::extractCornerCoordinates(CMatrix<float> HarrisCorners,
+				     std::vector<std::pair<float,float> > l1,
+                                     std::vector<std::pair<float,float> > l2,
+                                     std::set< std::pair<float,float> > cornerList, int path_radius){
+	
+	std::vector<std::pair<float,float> > result;
+
+	for(int i=0; i< l1.size(); ++i){//we use only inside squares for calibration
+	 for(int j=0; j<l2.size();++j){
+		//find intersection point	
+	        float t1=l1[i].first;
+     		float r1=l1[i].second; 
+	        float t2=l2[j].first;
+                float r2=l2[j].second;
+		float x=(r2*sin(t1)-r1*sin(t2))/sin(t1-t2);
+                float y=(r2*cos(t1)-r1*cos(t2))/sin(t2-t1);	 		
+		std::vector<float> dist;
+		int counter=0;
+		//find closest corner maximum
+		for(std::set< std::pair<float,float> >::iterator it=cornerList.begin();it!=cornerList.end();++it){	
+	
+			float cx=it->first;
+			float cy=it->second;
+			float diff=sqrt((x-cx)*(x-cx)+(y-cy)*(y-cy));
+
+			dist.push_back(diff);	
+		counter+=1;	
+		}
+		std::vector<float>::iterator it=std::min_element(dist.begin(),dist.end());
+		int index=it-dist.begin();
+
+		std::set< std::pair<float,float> >::iterator itr=std::next(cornerList.begin(), index);
+
+		int closestX=round(itr->first);
+		int closestY=round(itr->second);
+		int xbegin=closestX-path_radius;
+		int xend=closestX+path_radius;
+		int ybegin=closestY-path_radius;
+		int yend=closestY+path_radius;
+		float w=0;
+		float resX=0;
+		float resY=0;	
+		//after we found the closest point we calculate weighted mean of value for the path_radusXpath_radios region for raw Harris corner image;
+	   for(int py=ybegin;py<=yend;++py){		
+	   	for(int px=xbegin;px<=xend;++px){
+		   
+			resX+=HarrisCorners(px,py)*px;
+			resY+=HarrisCorners(px,py)*py;
+			w+=HarrisCorners(px,py);		
+
+		 }
+		}
+		resX=resX/w;
+		resY=resY/w;		
+		result.push_back(std::make_pair(resX,resY));
+	
+	 }
+
+	} 
+		
+	return result;
+
+}
+
+CTensor<float> tools::drawCornerLines(std::vector<std::pair<float,float> > corners,
+				     std::vector<std::pair<float,float> > l1,
+                                     std::vector<std::pair<float,float> > l2,
+				     CMatrix<float> image){
+
+	CTensor<float> result(image.xSize(),image.ySize(),3);
+	result.putMatrix(image,0);
+	result.putMatrix(image,1);
+	result.putMatrix(image,2);
+	//draw lines
+	//line1 from corner1 to corner2
+	float th1=l1[0].first;
+	float rh1=l1[0].second;	
+	//line2 from corner 1 to corner 3 
+	float th2=l2[0].first;
+	float rh2=l2[0].second;
+	//line3 from corner 3 to corner 4
+	float th1end=l1[l1.size()-1].first;
+	float rh1end=l1[l1.size()-1].second;
+	//line4 from corner 2 to corner 4
+	float th2end=l2[l2.size()-1].first;
+	float rh2end=l2[l2.size()-1].second;
+
+
+	//corner1
+	int x11=(rh2*sin(th1)-rh1*sin(th2))/sin(th1-th2);
+        int y11=(rh2*cos(th1)-rh1*cos(th2))/sin(th2-th1);
+
+	std::cout<<"x11 "<<x11<<"\n";
+	std::cout<<"y11 "<<y11<<"\n";
+	//corner2
+	int x12=(rh2end*sin(th1)-rh1*sin(th2end))/sin(th1-th2end);
+        int y12=(rh2end*cos(th1)-rh1*cos(th2end))/sin(th2end-th1);
+
+	std::cout<<"x12 "<<x12<<"\n";
+	std::cout<<"y12 "<<y12<<"\n";
+	//corner3
+	int x21=(rh2*sin(th1end)-rh1end*sin(th2))/sin(th1end-th2);
+        int y21=(rh2*cos(th1end)-rh1end*cos(th2))/sin(th2-th1end);
+
+	std::cout<<"x21 "<<x21<<"\n";
+	std::cout<<"y21 "<<y21<<"\n";
+	//corner4
+	int x22=(rh2end*sin(th1end)-rh1end*sin(th2end))/sin(th1end-th2end);
+        int y22=(rh2end*cos(th1end)-rh1end*cos(th2end))/sin(th2end-th1end);
+
+	std::cout<<"x22 "<<x22<<"\n";
+	std::cout<<"y22 "<<y22<<"\n";	
+	//line1 
+	drawLine( th1,rh1, x11, y11, x12, y12,result);	
+	//line2 
+	drawLine( th2,rh2, x11, y11, x21, y21,result);	
+	//line3 
+	drawLine( th1end,rh1end, x21, y21, x22, y22,result);
+	//line4
+	drawLine( th2end,rh2end, x12, y12, x22, y22,result);   
+	//draw all corners
+     	for(int i=0;i<corners.size();++i){
+		int x=corners[i].first;
+		int y=corners[i].second;
+	  for(int xx=x-3;xx<x+3;++xx){
+	   for(int yy=y-3;yy<y+3;++yy){
+		result(xx,yy,0)=255;
+		result(xx,yy,1)=0;		
+		result(xx,yy,2)=0;
+	   }
+  	 }
+       }
+
+
+	return result;
+
+}
+
+
+
 

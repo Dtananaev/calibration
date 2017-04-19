@@ -1,96 +1,55 @@
-Determining if the Q_WS_WIN exist failed with the following output:
-Change Dir: /home/denis/calibration/build/CMakeFiles/CMakeTmp
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/den/calibration/build/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec2072463409/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec2072463409.dir/build.make CMakeFiles/cmTryCompileExec2072463409.dir/build
-make[1]: Entering directory `/home/denis/calibration/build/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/denis/calibration/build/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec2072463409.dir/CheckSymbolExists.cxx.o
-/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec2072463409.dir/CheckSymbolExists.cxx.o -c /home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-/home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
-/home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_WIN’ was not declared in this scope
-   return ((int*)(&Q_WS_WIN))[argc];
-                   ^
-make[1]: Leaving directory `/home/denis/calibration/build/CMakeFiles/CMakeTmp'
-make[1]: *** [CMakeFiles/cmTryCompileExec2072463409.dir/CheckSymbolExists.cxx.o] Error 1
-make: *** [cmTryCompileExec2072463409/fast] Error 2
+Run Build Command:"/usr/bin/make" "cmTC_14e23/fast"
+/usr/bin/make -f CMakeFiles/cmTC_14e23.dir/build.make CMakeFiles/cmTC_14e23.dir/build
+make[1]: Entering directory '/home/den/calibration/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_14e23.dir/CheckSymbolExists.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_14e23.dir/CheckSymbolExists.c.o   -c /home/den/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_14e23
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_14e23.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_14e23.dir/CheckSymbolExists.c.o  -o cmTC_14e23 -rdynamic 
+CMakeFiles/cmTC_14e23.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_14e23.dir/build.make:97: recipe for target 'cmTC_14e23' failed
+make[1]: *** [cmTC_14e23] Error 1
+make[1]: Leaving directory '/home/den/calibration/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_14e23/fast' failed
+make: *** [cmTC_14e23/fast] Error 2
 
-File /home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+File /home/den/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
-#include <QtCore/qglobal.h>
+#include <pthread.h>
 
 int main(int argc, char** argv)
 {
   (void)argv;
-#ifndef Q_WS_WIN
-  return ((int*)(&Q_WS_WIN))[argc];
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
 #else
   (void)argc;
   return 0;
 #endif
 }
 
-Determining if the Q_WS_QWS exist failed with the following output:
-Change Dir: /home/denis/calibration/build/CMakeFiles/CMakeTmp
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/den/calibration/build/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec1026463689/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec1026463689.dir/build.make CMakeFiles/cmTryCompileExec1026463689.dir/build
-make[1]: Entering directory `/home/denis/calibration/build/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/denis/calibration/build/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec1026463689.dir/CheckSymbolExists.cxx.o
-/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec1026463689.dir/CheckSymbolExists.cxx.o -c /home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-/home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
-/home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_QWS’ was not declared in this scope
-   return ((int*)(&Q_WS_QWS))[argc];
-                   ^
-make[1]: Leaving directory `/home/denis/calibration/build/CMakeFiles/CMakeTmp'
-make[1]: *** [CMakeFiles/cmTryCompileExec1026463689.dir/CheckSymbolExists.cxx.o] Error 1
-make: *** [cmTryCompileExec1026463689/fast] Error 2
+Run Build Command:"/usr/bin/make" "cmTC_793d7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_793d7.dir/build.make CMakeFiles/cmTC_793d7.dir/build
+make[1]: Entering directory '/home/den/calibration/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_793d7.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_793d7.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_793d7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_793d7.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_793d7.dir/CheckFunctionExists.c.o  -o cmTC_793d7 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_793d7.dir/build.make:97: recipe for target 'cmTC_793d7' failed
+make[1]: *** [cmTC_793d7] Error 1
+make[1]: Leaving directory '/home/den/calibration/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_793d7/fast' failed
+make: *** [cmTC_793d7/fast] Error 2
 
-File /home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
-/* */
-#include <QtCore/qglobal.h>
-
-int main(int argc, char** argv)
-{
-  (void)argv;
-#ifndef Q_WS_QWS
-  return ((int*)(&Q_WS_QWS))[argc];
-#else
-  (void)argc;
-  return 0;
-#endif
-}
-
-Determining if the Q_WS_MAC exist failed with the following output:
-Change Dir: /home/denis/calibration/build/CMakeFiles/CMakeTmp
-
-Run Build Command:/usr/bin/make "cmTryCompileExec2876693873/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec2876693873.dir/build.make CMakeFiles/cmTryCompileExec2876693873.dir/build
-make[1]: Entering directory `/home/denis/calibration/build/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/denis/calibration/build/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec2876693873.dir/CheckSymbolExists.cxx.o
-/usr/bin/c++    -I/usr/include/qt4    -o CMakeFiles/cmTryCompileExec2876693873.dir/CheckSymbolExists.cxx.o -c /home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-/home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
-/home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘Q_WS_MAC’ was not declared in this scope
-   return ((int*)(&Q_WS_MAC))[argc];
-                   ^
-make[1]: Leaving directory `/home/denis/calibration/build/CMakeFiles/CMakeTmp'
-make[1]: *** [CMakeFiles/cmTryCompileExec2876693873.dir/CheckSymbolExists.cxx.o] Error 1
-make: *** [cmTryCompileExec2876693873/fast] Error 2
-
-File /home/denis/calibration/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
-/* */
-#include <QtCore/qglobal.h>
-
-int main(int argc, char** argv)
-{
-  (void)argv;
-#ifndef Q_WS_MAC
-  return ((int*)(&Q_WS_MAC))[argc];
-#else
-  (void)argc;
-  return 0;
-#endif
-}
 

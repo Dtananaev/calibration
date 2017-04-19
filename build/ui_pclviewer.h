@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'pclviewer.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.6
+** Created by: Qt User Interface Compiler version 5.5.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,19 +10,19 @@
 #define UI_PCLVIEWER_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QGridLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLCDNumber>
-#include <QtGui/QLabel>
-#include <QtGui/QMainWindow>
-#include <QtGui/QPushButton>
-#include <QtGui/QSlider>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QWidget>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLCDNumber>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QWidget>
 #include "QVTKWidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -51,66 +51,66 @@ public:
     void setupUi(QMainWindow *PCLViewer)
     {
         if (PCLViewer->objectName().isEmpty())
-            PCLViewer->setObjectName(QString::fromUtf8("PCLViewer"));
+            PCLViewer->setObjectName(QStringLiteral("PCLViewer"));
         PCLViewer->setWindowModality(Qt::NonModal);
         PCLViewer->resize(917, 784);
         PCLViewer->setMinimumSize(QSize(0, 0));
         PCLViewer->setMaximumSize(QSize(5000, 5000));
         centralwidget = new QWidget(PCLViewer);
-        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        centralwidget->setObjectName(QStringLiteral("centralwidget"));
         horizontalLayout = new QHBoxLayout(centralwidget);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         gridLayout = new QGridLayout();
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         depthlb_2 = new QLabel(centralwidget);
-        depthlb_2->setObjectName(QString::fromUtf8("depthlb_2"));
+        depthlb_2->setObjectName(QStringLiteral("depthlb_2"));
         depthlb_2->setMinimumSize(QSize(199, 156));
 
         gridLayout->addWidget(depthlb_2, 2, 0, 1, 2);
 
         minusButton = new QPushButton(centralwidget);
-        minusButton->setObjectName(QString::fromUtf8("minusButton"));
+        minusButton->setObjectName(QStringLiteral("minusButton"));
 
         gridLayout->addWidget(minusButton, 7, 0, 1, 1);
 
         plusButton = new QPushButton(centralwidget);
-        plusButton->setObjectName(QString::fromUtf8("plusButton"));
+        plusButton->setObjectName(QStringLiteral("plusButton"));
 
         gridLayout->addWidget(plusButton, 7, 1, 1, 1);
 
         pushButton_load = new QPushButton(centralwidget);
-        pushButton_load->setObjectName(QString::fromUtf8("pushButton_load"));
+        pushButton_load->setObjectName(QStringLiteral("pushButton_load"));
         pushButton_load->setMinimumSize(QSize(50, 40));
 
         gridLayout->addWidget(pushButton_load, 8, 1, 1, 1);
 
         gimagelb = new QLabel(centralwidget);
-        gimagelb->setObjectName(QString::fromUtf8("gimagelb"));
+        gimagelb->setObjectName(QStringLiteral("gimagelb"));
         gimagelb->setMinimumSize(QSize(199, 156));
 
         gridLayout->addWidget(gimagelb, 1, 0, 1, 2);
 
         horizontalSlider = new QSlider(centralwidget);
-        horizontalSlider->setObjectName(QString::fromUtf8("horizontalSlider"));
+        horizontalSlider->setObjectName(QStringLiteral("horizontalSlider"));
         horizontalSlider->setOrientation(Qt::Horizontal);
 
         gridLayout->addWidget(horizontalSlider, 5, 0, 1, 2);
 
         lcdNumber = new QLCDNumber(centralwidget);
-        lcdNumber->setObjectName(QString::fromUtf8("lcdNumber"));
+        lcdNumber->setObjectName(QStringLiteral("lcdNumber"));
         lcdNumber->setDigitCount(10);
         lcdNumber->setSegmentStyle(QLCDNumber::Flat);
 
         gridLayout->addWidget(lcdNumber, 4, 0, 1, 2);
 
         imagelb = new QLabel(centralwidget);
-        imagelb->setObjectName(QString::fromUtf8("imagelb"));
+        imagelb->setObjectName(QStringLiteral("imagelb"));
         imagelb->setMinimumSize(QSize(199, 157));
 
         gridLayout->addWidget(imagelb, 0, 0, 1, 2);
 
         pushButton_save = new QPushButton(centralwidget);
-        pushButton_save->setObjectName(QString::fromUtf8("pushButton_save"));
+        pushButton_save->setObjectName(QStringLiteral("pushButton_save"));
         pushButton_save->setMinimumSize(QSize(50, 40));
 
         gridLayout->addWidget(pushButton_save, 8, 0, 1, 1);
@@ -123,19 +123,19 @@ public:
         horizontalLayout->addLayout(gridLayout);
 
         gridLayout_2 = new QGridLayout();
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         label = new QLabel(centralwidget);
-        label->setObjectName(QString::fromUtf8("label"));
+        label->setObjectName(QStringLiteral("label"));
 
         gridLayout_2->addWidget(label, 1, 0, 1, 1);
 
         pointNumber = new QLabel(centralwidget);
-        pointNumber->setObjectName(QString::fromUtf8("pointNumber"));
+        pointNumber->setObjectName(QStringLiteral("pointNumber"));
 
         gridLayout_2->addWidget(pointNumber, 1, 1, 1, 1);
 
         qvtkWidget = new QVTKWidget(centralwidget);
-        qvtkWidget->setObjectName(QString::fromUtf8("qvtkWidget"));
+        qvtkWidget->setObjectName(QStringLiteral("qvtkWidget"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(50);
         sizePolicy.setVerticalStretch(0);
@@ -157,15 +157,15 @@ public:
 
     void retranslateUi(QMainWindow *PCLViewer)
     {
-        PCLViewer->setWindowTitle(QApplication::translate("PCLViewer", "PCLViewer", 0, QApplication::UnicodeUTF8));
+        PCLViewer->setWindowTitle(QApplication::translate("PCLViewer", "PCLViewer", 0));
         depthlb_2->setText(QString());
-        minusButton->setText(QApplication::translate("PCLViewer", "-", 0, QApplication::UnicodeUTF8));
-        plusButton->setText(QApplication::translate("PCLViewer", "+", 0, QApplication::UnicodeUTF8));
-        pushButton_load->setText(QApplication::translate("PCLViewer", "Load file", 0, QApplication::UnicodeUTF8));
+        minusButton->setText(QApplication::translate("PCLViewer", "-", 0));
+        plusButton->setText(QApplication::translate("PCLViewer", "+", 0));
+        pushButton_load->setText(QApplication::translate("PCLViewer", "Load file", 0));
         gimagelb->setText(QString());
         imagelb->setText(QString());
-        pushButton_save->setText(QApplication::translate("PCLViewer", "Save file", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("PCLViewer", "Number of points:", 0, QApplication::UnicodeUTF8));
+        pushButton_save->setText(QApplication::translate("PCLViewer", "Save file", 0));
+        label->setText(QApplication::translate("PCLViewer", "Number of points:", 0));
         pointNumber->setText(QString());
     } // retranslateUi
 

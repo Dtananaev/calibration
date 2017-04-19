@@ -1,14 +1,13 @@
 cmake_minimum_required (VERSION 2.6 FATAL_ERROR)
-#set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
-#MESSAGE("FALGS: ${CMAKE_CXX_FLAGS}")
-project      (visualizer)
-find_package (Qt4 REQUIRED)
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+MESSAGE("FALGS: ${CMAKE_CXX_FLAGS}")
+project      (calibration)
 find_package (VTK REQUIRED)
-find_package (PCL 1.7.1 REQUIRED)
+find_package (PCL REQUIRED)
 find_package(JPEG)
 find_package(PNG)
-
-
+find_package (Qt5Widgets REQUIRED)
+find_package (Qt5Core REQUIRED)
 
 
 
@@ -22,13 +21,13 @@ add_definitions     (${PCL_DEFINITIONS})
 set  (project_SOURCES  ./src/main.cpp ./src/pclviewer.cpp ./src/loader.cpp)
 set  (project_HEADERS ./include/pclviewer.h ./include/loader.h)
 set  (project_FORMS   ./src/pclviewer.ui)
-set  (VTK_LIBRARIES   vtkRendering vtkGraphics vtkHybrid QVTK)
+#set  (VTK_LIBRARIES   vtkRendering vtkGraphics vtkHybrid QVTK)
 
-QT4_WRAP_CPP (project_HEADERS_MOC   ${project_HEADERS})
-QT4_WRAP_UI  (project_FORMS_HEADERS ${project_FORMS})
-
-INCLUDE         (${QT_USE_FILE})
-ADD_DEFINITIONS (${QT_DEFINITIONS})
+QT5_WRAP_CPP (project_HEADERS_MOC   ${project_HEADERS})
+QT5_WRAP_UI  (project_FORMS_HEADERS ${project_FORMS})
+set(QT_LIBRARIES Qt5::Widgets Qt5::Core)
+#INCLUDE         (${QT_USE_FILE})
+#ADD_DEFINITIONS (${QT_DEFINITIONS})
 
 ADD_EXECUTABLE  (calibration ${project_SOURCES}
                                 ${project_FORMS_HEADERS}
@@ -41,7 +40,7 @@ ADD_EXECUTABLE  (tool ./src/tools.cpp ./include/tools.h ./src/toolsApp.cpp ./ext
 
 TARGET_LINK_LIBRARIES (tool)
 
-ADD_EXECUTABLE  (im2g ./src/jpg2pgm.cpp)
+ADD_EXECUTABLE  (im2g ./src/jpg2pgm.cpp )
 
-TARGET_LINK_LIBRARIES (im2g ${JPEG_LIBRARIES})
+TARGET_LINK_LIBRARIES (im2g ${JPEG_LIBRARIES}  ${QT_LIBRARIES} )
 
