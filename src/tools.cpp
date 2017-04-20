@@ -376,17 +376,17 @@ CMatrix<float> tools::CannyEdgeDetector(CMatrix<float> image){
     CMatrix<float> edges;
 
     SobelEdgeDetector(image, Gx, Gy,orient, edges);
-    CMatrix<float> nms=nonMaxSupress(edges,orient);
+    CMatrix<float> result=nonMaxSupress(edges,orient);
     float treshold=0;
-    for(int i=0;i<nms.xSize();i++){
-    for(int j=0;j<nms.ySize();j++){
 
-        if(nms(i,j)>treshold){treshold=nms(i,j);}
+    for(int i=0;i<result.xSize();i++){
+    for(int j=0;j<result.ySize();j++){
+        if(result(i,j)>treshold){treshold=result(i,j);}
+     }
+    }
 
-    }
-    }
-    CMatrix<float> result=CannyTreshold(nms,treshold);
-    
+    result=CannyTreshold(result,treshold);
+
     return result;
 }
 
@@ -550,7 +550,7 @@ void tools::minMax(CMatrix<float> image, float& min,float& max){
 
 }
 
-void tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2){
+bool tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2){
 
     //first Hough transform 
     std::vector<int> theta,rho;
@@ -591,10 +591,12 @@ void tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::v
 
     }
 
-   std::cout<<"l1 horizontal "<<l1.size()<<"\n";
-   std::cout<<"l2 vertical "<<l2.size()<<"\n";  
+ 	
+   if(l1.size()==0 ||l2.size()==0 ){
+	return false;
+   }
 
-    
+    return true;
 }
 
 
@@ -638,6 +640,7 @@ CMatrix<float> tools::HoughTransform(CMatrix<float> edges,std::vector<int>& thet
 
     return Hough;
 }
+
 CMatrix<float> tools::secondHoughTransform(std::vector<std::pair<int,int> >  lines,std::vector<int> theta,std::vector<int> rho){
 
       CMatrix<float> secondHough(theta.size(),rho.size(),0);
@@ -1363,6 +1366,32 @@ CTensor<float> tools::drawCornerLines(std::vector<std::pair<float,float> > corne
 
 	return result;
 
+}
+
+bool tools::DetectBoard( CMatrix<float> image,  
+			std::vector<std::pair<float,float> >& corners, 
+			CTensor<float>& detected_board){
+   
+    CMatrix<float> edges=CannyEdgeDetector(image); 
+    CMatrix<float> result =HarrisEdgeDetector(image);
+    std::vector<std::pair<float,float> > l1;
+    std::vector<std::pair<float,float> > l2;
+    bool detected=extractHoughLines(edges,image,l1,l2);  
+    if(detected){	
+    std::set<std::pair<float, float> > cornerList=getALLCornerCoordinates( result, 3);
+    findChessBoardLines(l1,l2, cornerList, 5,image);  	
+    corners=extractCornerCoordinates(result, l1, l2, cornerList,  3);
+    detected_board=drawCornerLines(corners,l1, l2, image); 
+    }else{
+   CTensor<float> lines(image.xSize(),image.ySize(),3,0);
+    lines.putMatrix(image,0);
+    lines.putMatrix(image,1);
+    lines.putMatrix(image,2);
+	detected_board=lines;
+	return false;
+    }
+
+  return true;
 }
 
 

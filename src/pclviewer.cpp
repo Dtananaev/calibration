@@ -75,15 +75,15 @@ PCLViewer::~PCLViewer(){
 
 void PCLViewer::plusButton(){
 
-if(im_.images_.size()==0){return;}
+if(clb_.images_.size()==0){return;}
  int index=ui->horizontalSlider->value();
- if(index<im_.images_.size()-1){
+ if(index<clb_.images_.size()-1){
     ui->horizontalSlider->setValue(index+1);
 }
 }
 
 void PCLViewer::minusButton(){
-if(im_.images_.size()==0){return;}
+if(clb_.images_.size()==0){return;}
  int index=ui->horizontalSlider->value();
  if(index>0){
     ui->horizontalSlider->setValue(index-1);
@@ -92,20 +92,21 @@ if(im_.images_.size()==0){return;}
 
 
 void PCLViewer::open(){
-    QString folder_path = QFileDialog::getExistingDirectory(this, tr("Load data"), "");  
-    im_.loadData(folder_path.toUtf8().constData());
-    ui->horizontalSlider->setRange(0,im_.images_.size()-1);
+    QString folder_path = QFileDialog::getExistingDirectory(this, tr("Load data"), "");      
+clb_.getData(folder_path.toUtf8().constData());
+    
+    ui->horizontalSlider->setRange(0,clb_.images_.size()-1);
     MysliderReleased(); 
 }
 
 void PCLViewer::MysliderReleased(){
-if(im_.images_.size()==0){return;}
+if(clb_.images_.size()==0){return;}
     int index=ui->horizontalSlider->value(); 
      update(index);
 }
 
 void PCLViewer::update(int index){
-    CTensor<float> image=im_.images_[index];
+    CTensor<float> image=clb_.images_[index];
     //image 
    QImage img(image.xSize(), image.ySize(), QImage::Format_RGB888);
     for (int x = 0; x <image.xSize(); ++x) {
@@ -118,12 +119,12 @@ void PCLViewer::update(int index){
    ui->imagelb->setPixmap(QPixmap::fromImage(img));
    ui->imagelb->show();
 
-   CMatrix<float> gimage=im_.gimages_[index];
+   CTensor<float> gimage=clb_.detectedIm[index];
 
  QImage gim(gimage.xSize(),gimage.ySize(), QImage::Format_RGB32);
     for (int x = 0; x <gimage.xSize(); ++x) {
     for (int y = 0; y < gimage.ySize(); ++y) {
-      gim.setPixel(x, y, qRgb(gimage(x,y), gimage(x,y), gimage(x,y)));
+      gim.setPixel(x, y, qRgb(gimage(x,y,0), gimage(x,y,1), gimage(x,y,2)));
     }
   }
    gim=gim.scaledToWidth(ui->gimagelb->width(), Qt::SmoothTransformation);
@@ -133,7 +134,7 @@ void PCLViewer::update(int index){
   
 }
 void PCLViewer::sliderValueChanged(int index){
-if(im_.images_.size()==0){return;}
+if(clb_.images_.size()==0){return;}
       ui->lcdNumber->display(index);
         if(!ui->horizontalSlider->isSliderDown()){ update(index);}     
 }

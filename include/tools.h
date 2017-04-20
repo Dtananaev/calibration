@@ -61,7 +61,7 @@ public:
 
 
     //Hough transforms
-    void extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2);
+    bool extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::vector<std::pair<float,float> >& l1, std::vector<std::pair<float,float> >& l2);
     CMatrix<float> HoughTransform(CMatrix<float> edges,std::vector<int>& theta,std::vector<int>& rho);
     std::vector<std::pair<int,int> > HoughPeaks(CMatrix<float> Hough, int num_peaks);
     std::vector<std::pair<int,int> >  AllHoughPeaks(CMatrix<float> Hough, float treshold); 
@@ -120,6 +120,11 @@ public:
 				     std::vector<std::pair<float,float> > l1,
                                      std::vector<std::pair<float,float> > l2,
 				     CMatrix<float> image);
+
+
+	bool DetectBoard( CMatrix<float> image,  
+			std::vector<std::pair<float,float> >& corners, 
+			CTensor<float>& detected_board);
 private:
 
 };

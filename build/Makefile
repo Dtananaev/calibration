@@ -155,6 +155,7 @@ external/others/include/NMath.o: external/others/include/NMath.cpp.o
 
 # target to build an object file
 external/others/include/NMath.cpp.o:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/external/others/include/NMath.cpp.o
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.o
 .PHONY : external/others/include/NMath.cpp.o
 
@@ -164,6 +165,7 @@ external/others/include/NMath.i: external/others/include/NMath.cpp.i
 
 # target to preprocess a source file
 external/others/include/NMath.cpp.i:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/external/others/include/NMath.cpp.i
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.i
 .PHONY : external/others/include/NMath.cpp.i
 
@@ -173,8 +175,36 @@ external/others/include/NMath.s: external/others/include/NMath.cpp.s
 
 # target to generate assembly for a file
 external/others/include/NMath.cpp.s:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/external/others/include/NMath.cpp.s
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.s
 .PHONY : external/others/include/NMath.cpp.s
+
+include/moc_calibration.o: include/moc_calibration.cpp.o
+
+.PHONY : include/moc_calibration.o
+
+# target to build an object file
+include/moc_calibration.cpp.o:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_calibration.cpp.o
+.PHONY : include/moc_calibration.cpp.o
+
+include/moc_calibration.i: include/moc_calibration.cpp.i
+
+.PHONY : include/moc_calibration.i
+
+# target to preprocess a source file
+include/moc_calibration.cpp.i:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_calibration.cpp.i
+.PHONY : include/moc_calibration.cpp.i
+
+include/moc_calibration.s: include/moc_calibration.cpp.s
+
+.PHONY : include/moc_calibration.s
+
+# target to generate assembly for a file
+include/moc_calibration.cpp.s:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_calibration.cpp.s
+.PHONY : include/moc_calibration.cpp.s
 
 include/moc_loader.o: include/moc_loader.cpp.o
 
@@ -229,6 +259,60 @@ include/moc_pclviewer.s: include/moc_pclviewer.cpp.s
 include/moc_pclviewer.cpp.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_pclviewer.cpp.s
 .PHONY : include/moc_pclviewer.cpp.s
+
+include/moc_tools.o: include/moc_tools.cpp.o
+
+.PHONY : include/moc_tools.o
+
+# target to build an object file
+include/moc_tools.cpp.o:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_tools.cpp.o
+.PHONY : include/moc_tools.cpp.o
+
+include/moc_tools.i: include/moc_tools.cpp.i
+
+.PHONY : include/moc_tools.i
+
+# target to preprocess a source file
+include/moc_tools.cpp.i:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_tools.cpp.i
+.PHONY : include/moc_tools.cpp.i
+
+include/moc_tools.s: include/moc_tools.cpp.s
+
+.PHONY : include/moc_tools.s
+
+# target to generate assembly for a file
+include/moc_tools.cpp.s:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_tools.cpp.s
+.PHONY : include/moc_tools.cpp.s
+
+src/calibration.o: src/calibration.cpp.o
+
+.PHONY : src/calibration.o
+
+# target to build an object file
+src/calibration.cpp.o:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/calibration.cpp.o
+.PHONY : src/calibration.cpp.o
+
+src/calibration.i: src/calibration.cpp.i
+
+.PHONY : src/calibration.i
+
+# target to preprocess a source file
+src/calibration.cpp.i:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/calibration.cpp.i
+.PHONY : src/calibration.cpp.i
+
+src/calibration.s: src/calibration.cpp.s
+
+.PHONY : src/calibration.s
+
+# target to generate assembly for a file
+src/calibration.cpp.s:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/calibration.cpp.s
+.PHONY : src/calibration.cpp.s
 
 src/jpg2pgm.o: src/jpg2pgm.cpp.o
 
@@ -344,6 +428,7 @@ src/tools.o: src/tools.cpp.o
 
 # target to build an object file
 src/tools.cpp.o:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/tools.cpp.o
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.o
 .PHONY : src/tools.cpp.o
 
@@ -353,6 +438,7 @@ src/tools.i: src/tools.cpp.i
 
 # target to preprocess a source file
 src/tools.cpp.i:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/tools.cpp.i
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.i
 .PHONY : src/tools.cpp.i
 
@@ -362,6 +448,7 @@ src/tools.s: src/tools.cpp.s
 
 # target to generate assembly for a file
 src/tools.cpp.s:
+	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/tools.cpp.s
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.s
 .PHONY : src/tools.cpp.s
 
@@ -406,12 +493,21 @@ help:
 	@echo "... external/others/include/NMath.o"
 	@echo "... external/others/include/NMath.i"
 	@echo "... external/others/include/NMath.s"
+	@echo "... include/moc_calibration.o"
+	@echo "... include/moc_calibration.i"
+	@echo "... include/moc_calibration.s"
 	@echo "... include/moc_loader.o"
 	@echo "... include/moc_loader.i"
 	@echo "... include/moc_loader.s"
 	@echo "... include/moc_pclviewer.o"
 	@echo "... include/moc_pclviewer.i"
 	@echo "... include/moc_pclviewer.s"
+	@echo "... include/moc_tools.o"
+	@echo "... include/moc_tools.i"
+	@echo "... include/moc_tools.s"
+	@echo "... src/calibration.o"
+	@echo "... src/calibration.i"
+	@echo "... src/calibration.s"
 	@echo "... src/jpg2pgm.o"
 	@echo "... src/jpg2pgm.i"
 	@echo "... src/jpg2pgm.s"

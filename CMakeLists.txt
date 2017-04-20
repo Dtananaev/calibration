@@ -18,8 +18,8 @@ include_directories (${PCL_INCLUDE_DIRS}
 link_directories    (${PCL_LIBRARY_DIRS})
 add_definitions     (${PCL_DEFINITIONS})
 
-set  (project_SOURCES  ./src/main.cpp ./src/pclviewer.cpp ./src/loader.cpp)
-set  (project_HEADERS ./include/pclviewer.h ./include/loader.h)
+set  (project_SOURCES  ./src/main.cpp ./src/pclviewer.cpp ./src/loader.cpp ./src/tools.cpp ./src/calibration.cpp ./external/others/include/NMath.cpp)
+set  (project_HEADERS ./include/pclviewer.h ./include/loader.h ./include/tools.h ./include/calibration.h )
 set  (project_FORMS   ./src/pclviewer.ui)
 #set  (VTK_LIBRARIES   vtkRendering vtkGraphics vtkHybrid QVTK)
 

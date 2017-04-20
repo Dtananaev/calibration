@@ -40,10 +40,14 @@ int main(){
 
     CMatrix<float> image;
     tools t;
-    //image.readFromPGM("../test/CalibIm5.pgm");
-    image.readFromPGM("../test/frame1.pgm");
+    image.readFromPGM("../test/CalibIm5.pgm");
+    //image.readFromPGM("../test/frame1.pgm");
     CMatrix<float> image1=image;   
     CMatrix<float> edges=t.CannyEdgeDetector(image1); 
+std::cout<<"image x size "<<image.xSize()<<"\n";
+std::cout<<"image y size "<<image.ySize()<<"\n";
+std::cout<<"image1 x size "<<image1.xSize()<<"\n";
+std::cout<<"image1 y size "<<image1.ySize()<<"\n";
     CMatrix<float> result =t.HarrisEdgeDetector(image);
     std::vector<std::pair<float,float> > l1;
     std::vector<std::pair<float,float> > l2;
