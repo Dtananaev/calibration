@@ -555,17 +555,17 @@ bool tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::v
     //first Hough transform 
     std::vector<int> theta,rho;
     CMatrix<float> H=HoughTransform( edges,theta,rho);
-    CMatrix<float> tophat=TopHat(H, 1);
+    H=TopHat(H, 1);
     float min, max;
-    minMax(tophat,min,max);
-    CMatrix<float> dial= DilationFilter(tophat, 1);
-    std::vector<std::pair<int,int> > temp=AllHoughPeaks(dial, 0.2*max);
+    minMax(H,min,max);
+    H= DilationFilter(H, 1);
+    std::vector<std::pair<int,int> > temp=AllHoughPeaks(H, 0.2*max);
     //second Hough transform 
     CMatrix<float> H2=secondHoughTransform(temp,theta,rho);
-    CMatrix<float> dial2= DilationFilter(H2, 1);
+    H2= DilationFilter(H2, 1);
     //get first  maxima
 
-    std::vector<std::pair<int,int> > maximum=HoughPeaks(dial2, 1);//find the maximum 
+    std::vector<std::pair<int,int> > maximum=HoughPeaks(H2, 1);//find the maximum 
     std::cout<<"Max of the second Hough transform is: rho "<<rho[maximum[0].second]<<" theta "<<theta[maximum[0].first]<<"\n"; 
 
     float t21=theta[maximum[0].first]*M_PI/180;
@@ -881,9 +881,6 @@ std::set<std::pair<float,float> > tools::getALLCornerCoordinates(CMatrix<float> 
                 }
           }
         } 
-    std::cout<<"num corners before filtering "<<before<<"\n"; 
-    std::cout<<"num corners after filtering "<<after<<"\n"; 
-
     //check if there are pixels in the local neighbourhood area with the size of patch_radius and merge them
     int treshold = patch_radius;//pixels
     for(int i=0;i<allcorners.size();++i){
@@ -911,11 +908,6 @@ std::set<std::pair<float,float> > tools::getALLCornerCoordinates(CMatrix<float> 
         Cor.insert(std::make_pair(X,Y));
     }
 
-    
-
-    
-    std::cout<<"number of corners after merging "<<Cor.size()<<"\n";
-
     return Cor;
 }
 
@@ -928,7 +920,7 @@ void tools::findChessBoardLines(std::vector<std::pair<float,float> >& l1,
     //The function searches for the intersection of the lines it accepts intersections in the dist2corner dist
     std::vector<lines> Lhorizontal;
     std::vector<lines> Lvertical;
-     int treshold=1;   
+    int treshold=1;   
 
        int size_H=l1.size();
         int size_V=l2.size();
@@ -1134,9 +1126,7 @@ void tools::removeChessBoardOutliersLines(std::vector<lines>& Lhorizontal,
     }
     
     } while(size_H!=Lhorizontal.size() );
-    std::cout<<"size H after "<<Lhorizontal.size()<<"\n";
-    std::cout<<"size W after "<<Lvertical.size()<<"\n";
-    std::cout<<"number iterations"<<counter<<"\n";
+
 }
 
 void tools::getFinalSetOfLines(std::vector<lines> Lhorizontal,
@@ -1322,26 +1312,22 @@ CTensor<float> tools::drawCornerLines(std::vector<std::pair<float,float> > corne
 	int x11=(rh2*sin(th1)-rh1*sin(th2))/sin(th1-th2);
         int y11=(rh2*cos(th1)-rh1*cos(th2))/sin(th2-th1);
 
-	std::cout<<"x11 "<<x11<<"\n";
-	std::cout<<"y11 "<<y11<<"\n";
+
 	//corner2
 	int x12=(rh2end*sin(th1)-rh1*sin(th2end))/sin(th1-th2end);
         int y12=(rh2end*cos(th1)-rh1*cos(th2end))/sin(th2end-th1);
 
-	std::cout<<"x12 "<<x12<<"\n";
-	std::cout<<"y12 "<<y12<<"\n";
+
 	//corner3
 	int x21=(rh2*sin(th1end)-rh1end*sin(th2))/sin(th1end-th2);
         int y21=(rh2*cos(th1end)-rh1end*cos(th2))/sin(th2-th1end);
 
-	std::cout<<"x21 "<<x21<<"\n";
-	std::cout<<"y21 "<<y21<<"\n";
+
 	//corner4
 	int x22=(rh2end*sin(th1end)-rh1end*sin(th2end))/sin(th1end-th2end);
         int y22=(rh2end*cos(th1end)-rh1end*cos(th2end))/sin(th2end-th1end);
 
-	std::cout<<"x22 "<<x22<<"\n";
-	std::cout<<"y22 "<<y22<<"\n";	
+
 	//line1 
 	drawLine( th1,rh1, x11, y11, x12, y12,result);	
 	//line2 

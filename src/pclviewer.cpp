@@ -93,8 +93,19 @@ if(clb_.images_.size()==0){return;}
 
 void PCLViewer::open(){
     QString folder_path = QFileDialog::getExistingDirectory(this, tr("Load data"), "");      
-clb_.getData(folder_path.toUtf8().constData());
-    
+       clb_.loadData(folder_path.toUtf8().constData());//load data
+  //detect chess border
+   for(int i=0;i<clb_.gimages_.size();++i){
+
+     QCoreApplication::processEvents();
+     std::vector<std::pair<float,float> > corners;
+     CTensor<float> detected_board;
+      bool detect=clb_.DetectBoard( clb_.gimages_[i], corners,detected_board);
+      if(detect){
+          clb_.imCorners.push_back(corners);
+        }
+	clb_.detectedIm.push_back(detected_board);
+    }
     ui->horizontalSlider->setRange(0,clb_.images_.size()-1);
     MysliderReleased(); 
 }
