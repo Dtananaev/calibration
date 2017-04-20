@@ -13,6 +13,8 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -21,7 +23,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
-#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "QVTKWidget.h"
 
@@ -31,109 +33,40 @@ class Ui_PCLViewer
 {
 public:
     QWidget *centralwidget;
+    QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QGridLayout *gridLayout;
-    QLabel *depthlb_2;
+    QVTKWidget *qvtkWidget;
+    QFrame *line;
+    QLabel *imagelb;
+    QHBoxLayout *horizontalLayout_3;
+    QHBoxLayout *horizontalLayout_2;
+    QSlider *horizontalSlider;
+    QPushButton *findCheck;
+    QLCDNumber *lcdNumber;
     QPushButton *minusButton;
     QPushButton *plusButton;
-    QPushButton *pushButton_load;
-    QLabel *gimagelb;
-    QSlider *horizontalSlider;
-    QLCDNumber *lcdNumber;
-    QLabel *imagelb;
-    QPushButton *pushButton_save;
-    QSpacerItem *verticalSpacer;
     QGridLayout *gridLayout_2;
     QLabel *label;
-    QLabel *pointNumber;
-    QVTKWidget *qvtkWidget;
+    QLabel *status;
+    QCheckBox *checkBox;
+    QLabel *label_2;
+    QLabel *numCorners;
+    QPushButton *pushButton_2;
 
     void setupUi(QMainWindow *PCLViewer)
     {
         if (PCLViewer->objectName().isEmpty())
             PCLViewer->setObjectName(QStringLiteral("PCLViewer"));
         PCLViewer->setWindowModality(Qt::NonModal);
-        PCLViewer->resize(917, 784);
+        PCLViewer->resize(813, 577);
         PCLViewer->setMinimumSize(QSize(0, 0));
         PCLViewer->setMaximumSize(QSize(5000, 5000));
         centralwidget = new QWidget(PCLViewer);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        horizontalLayout = new QHBoxLayout(centralwidget);
+        verticalLayout = new QVBoxLayout(centralwidget);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        gridLayout = new QGridLayout();
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        depthlb_2 = new QLabel(centralwidget);
-        depthlb_2->setObjectName(QStringLiteral("depthlb_2"));
-        depthlb_2->setMinimumSize(QSize(199, 156));
-
-        gridLayout->addWidget(depthlb_2, 2, 0, 1, 2);
-
-        minusButton = new QPushButton(centralwidget);
-        minusButton->setObjectName(QStringLiteral("minusButton"));
-
-        gridLayout->addWidget(minusButton, 7, 0, 1, 1);
-
-        plusButton = new QPushButton(centralwidget);
-        plusButton->setObjectName(QStringLiteral("plusButton"));
-
-        gridLayout->addWidget(plusButton, 7, 1, 1, 1);
-
-        pushButton_load = new QPushButton(centralwidget);
-        pushButton_load->setObjectName(QStringLiteral("pushButton_load"));
-        pushButton_load->setMinimumSize(QSize(50, 40));
-
-        gridLayout->addWidget(pushButton_load, 8, 1, 1, 1);
-
-        gimagelb = new QLabel(centralwidget);
-        gimagelb->setObjectName(QStringLiteral("gimagelb"));
-        gimagelb->setMinimumSize(QSize(199, 156));
-
-        gridLayout->addWidget(gimagelb, 1, 0, 1, 2);
-
-        horizontalSlider = new QSlider(centralwidget);
-        horizontalSlider->setObjectName(QStringLiteral("horizontalSlider"));
-        horizontalSlider->setOrientation(Qt::Horizontal);
-
-        gridLayout->addWidget(horizontalSlider, 5, 0, 1, 2);
-
-        lcdNumber = new QLCDNumber(centralwidget);
-        lcdNumber->setObjectName(QStringLiteral("lcdNumber"));
-        lcdNumber->setDigitCount(10);
-        lcdNumber->setSegmentStyle(QLCDNumber::Flat);
-
-        gridLayout->addWidget(lcdNumber, 4, 0, 1, 2);
-
-        imagelb = new QLabel(centralwidget);
-        imagelb->setObjectName(QStringLiteral("imagelb"));
-        imagelb->setMinimumSize(QSize(199, 157));
-
-        gridLayout->addWidget(imagelb, 0, 0, 1, 2);
-
-        pushButton_save = new QPushButton(centralwidget);
-        pushButton_save->setObjectName(QStringLiteral("pushButton_save"));
-        pushButton_save->setMinimumSize(QSize(50, 40));
-
-        gridLayout->addWidget(pushButton_save, 8, 0, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(verticalSpacer, 3, 0, 1, 1);
-
-
-        horizontalLayout->addLayout(gridLayout);
-
-        gridLayout_2 = new QGridLayout();
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        label = new QLabel(centralwidget);
-        label->setObjectName(QStringLiteral("label"));
-
-        gridLayout_2->addWidget(label, 1, 0, 1, 1);
-
-        pointNumber = new QLabel(centralwidget);
-        pointNumber->setObjectName(QStringLiteral("pointNumber"));
-
-        gridLayout_2->addWidget(pointNumber, 1, 1, 1, 1);
-
         qvtkWidget = new QVTKWidget(centralwidget);
         qvtkWidget->setObjectName(QStringLiteral("qvtkWidget"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -141,12 +74,99 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(qvtkWidget->sizePolicy().hasHeightForWidth());
         qvtkWidget->setSizePolicy(sizePolicy);
-        qvtkWidget->setMinimumSize(QSize(690, 480));
+        qvtkWidget->setMinimumSize(QSize(371, 371));
 
-        gridLayout_2->addWidget(qvtkWidget, 0, 0, 1, 2);
+        horizontalLayout->addWidget(qvtkWidget);
+
+        line = new QFrame(centralwidget);
+        line->setObjectName(QStringLiteral("line"));
+        line->setFrameShape(QFrame::VLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout->addWidget(line);
+
+        imagelb = new QLabel(centralwidget);
+        imagelb->setObjectName(QStringLiteral("imagelb"));
+        imagelb->setMinimumSize(QSize(411, 321));
+
+        horizontalLayout->addWidget(imagelb);
 
 
-        horizontalLayout->addLayout(gridLayout_2);
+        verticalLayout->addLayout(horizontalLayout);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalSlider = new QSlider(centralwidget);
+        horizontalSlider->setObjectName(QStringLiteral("horizontalSlider"));
+        horizontalSlider->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_2->addWidget(horizontalSlider);
+
+        findCheck = new QPushButton(centralwidget);
+        findCheck->setObjectName(QStringLiteral("findCheck"));
+
+        horizontalLayout_2->addWidget(findCheck);
+
+
+        horizontalLayout_3->addLayout(horizontalLayout_2);
+
+        lcdNumber = new QLCDNumber(centralwidget);
+        lcdNumber->setObjectName(QStringLiteral("lcdNumber"));
+        lcdNumber->setDigitCount(10);
+        lcdNumber->setSegmentStyle(QLCDNumber::Flat);
+
+        horizontalLayout_3->addWidget(lcdNumber);
+
+        minusButton = new QPushButton(centralwidget);
+        minusButton->setObjectName(QStringLiteral("minusButton"));
+
+        horizontalLayout_3->addWidget(minusButton);
+
+        plusButton = new QPushButton(centralwidget);
+        plusButton->setObjectName(QStringLiteral("plusButton"));
+
+        horizontalLayout_3->addWidget(plusButton);
+
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        label = new QLabel(centralwidget);
+        label->setObjectName(QStringLiteral("label"));
+
+        gridLayout_2->addWidget(label, 0, 0, 1, 1);
+
+        status = new QLabel(centralwidget);
+        status->setObjectName(QStringLiteral("status"));
+
+        gridLayout_2->addWidget(status, 0, 1, 1, 2);
+
+        checkBox = new QCheckBox(centralwidget);
+        checkBox->setObjectName(QStringLiteral("checkBox"));
+
+        gridLayout_2->addWidget(checkBox, 1, 0, 1, 3);
+
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        gridLayout_2->addWidget(label_2, 2, 0, 1, 2);
+
+        numCorners = new QLabel(centralwidget);
+        numCorners->setObjectName(QStringLiteral("numCorners"));
+
+        gridLayout_2->addWidget(numCorners, 2, 2, 1, 1);
+
+
+        horizontalLayout_3->addLayout(gridLayout_2);
+
+        pushButton_2 = new QPushButton(centralwidget);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_2->setMinimumSize(QSize(191, 71));
+
+        horizontalLayout_3->addWidget(pushButton_2);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
 
         PCLViewer->setCentralWidget(centralwidget);
 
@@ -158,15 +178,16 @@ public:
     void retranslateUi(QMainWindow *PCLViewer)
     {
         PCLViewer->setWindowTitle(QApplication::translate("PCLViewer", "PCLViewer", 0));
-        depthlb_2->setText(QString());
+        imagelb->setText(QString());
+        findCheck->setText(QApplication::translate("PCLViewer", "Find Checkerboard", 0));
         minusButton->setText(QApplication::translate("PCLViewer", "-", 0));
         plusButton->setText(QApplication::translate("PCLViewer", "+", 0));
-        pushButton_load->setText(QApplication::translate("PCLViewer", "Load file", 0));
-        gimagelb->setText(QString());
-        imagelb->setText(QString());
-        pushButton_save->setText(QApplication::translate("PCLViewer", "Save file", 0));
-        label->setText(QApplication::translate("PCLViewer", "Number of points:", 0));
-        pointNumber->setText(QString());
+        label->setText(QApplication::translate("PCLViewer", "Status:", 0));
+        status->setText(QString());
+        checkBox->setText(QApplication::translate("PCLViewer", "use for calibration", 0));
+        label_2->setText(QApplication::translate("PCLViewer", "Number of detected corners:", 0));
+        numCorners->setText(QString());
+        pushButton_2->setText(QApplication::translate("PCLViewer", "Calibrate", 0));
     } // retranslateUi
 
 };

@@ -58,6 +58,6 @@ std::cout<<"image1 y size "<<image1.ySize()<<"\n";
     std::vector<std::pair<float,float> > corners=t.extractCornerCoordinates(result, l1, l2, cornerList,  3);
 
 
-    CTensor<float> res=t.drawCornerLines(corners,l1, l2, image);
-   res.writeToPPM("../test/res.ppm");
+  //  CTensor<float> res=t.drawCornerLines(corners,l1, l2, image);
+   //res.writeToPPM("../test/res.ppm");
 }

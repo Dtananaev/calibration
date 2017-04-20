@@ -119,10 +119,11 @@ public:
     CTensor<float> drawCornerLines(std::vector<std::pair<float,float> > corners,
 				     std::vector<std::pair<float,float> > l1,
                                      std::vector<std::pair<float,float> > l2,
-				     CMatrix<float> image);
+				     CTensor<float> image);
 
 
 	bool DetectBoard( CMatrix<float> image,  
+			CTensor<float> vizImage,  
 			std::vector<std::pair<float,float> >& corners, 
 			CTensor<float>& detected_board);
 private:

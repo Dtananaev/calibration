@@ -418,11 +418,13 @@ void tools::drawLine(float th,float rh, int x1, int y1, int x2, int y2, CTensor<
    	   float j=(rh-x*cos(th))/sin(th);
 
               if(j>=beginy-1 && j<=endy+1){
- 		  for(int tempx=x-1;tempx<x+1;++tempx){
- 		  for(int tempy=j-1;tempy<j+1;++tempy){	
+ 		  for(int tempx=x-3;tempx<x+3;++tempx){
+ 		  for(int tempy=j-3;tempy<j+3;++tempy){	
+		if(tempx>=0 && tempx<lines.xSize() && tempy>=0 && tempy<lines.ySize()){	
                     lines(tempx,tempy,0)=0;
-                    lines(tempx,tempy,1)=255;
-                    lines(tempx,tempy,2)=0;
+                    lines(tempx,tempy,1)=0;
+                    lines(tempx,tempy,2)=255;
+		}
 		}
 		}
              }
@@ -431,11 +433,13 @@ void tools::drawLine(float th,float rh, int x1, int y1, int x2, int y2, CTensor<
          if(cos(th)!=0){    
             float k=(rh-y*sin(th))/cos(th);
             if(k>=beginx-1  && k<=endx+1){
- 		  for(int tempx=k-1;tempx<k+1;++tempx){
- 		  for(int tempy=y-1;tempy<y+1;++tempy){
+ 		  for(int tempx=k-3;tempx<k+3;++tempx){
+ 		  for(int tempy=y-3;tempy<y+3;++tempy){
+		if(tempx>=0 && tempx<lines.xSize() && tempy>=0 && tempy<lines.ySize()){	
                     lines(tempx,tempy,0)=0;
-                    lines(tempx,tempy,1)=255;
-                    lines(tempx,tempy,2)=0;
+                    lines(tempx,tempy,1)=0;
+                    lines(tempx,tempy,2)=255;
+		}
 		}
 		}
             }   
@@ -565,7 +569,7 @@ bool tools::extractHoughLines(CMatrix<float> edges, CMatrix<float> image, std::v
     H2= DilationFilter(H2, 1);
     //get first  maxima
 
-    std::vector<std::pair<int,int> > maximum=HoughPeaks(H2, 1);//find the maximum 
+    std::vector<std::pair<int,int> > maximum=HoughPeaks(H2,1);//find the maximum 
     std::cout<<"Max of the second Hough transform is: rho "<<rho[maximum[0].second]<<" theta "<<theta[maximum[0].first]<<"\n"; 
 
     float t21=theta[maximum[0].first]*M_PI/180;
@@ -939,7 +943,7 @@ void tools::findChessBoardLines(std::vector<std::pair<float,float> >& l1,
         }    
     }while(size_H!=l1.size() &&size_V!=l2.size());
 
-    getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList,1.5*dist2corner,false);
+    getIntersections(Lhorizontal,Lvertical,l1,l2, cornerList,1.7*dist2corner,false);
 
      removeChessBoardOutliersLines(Lhorizontal,Lvertical);
      getFinalSetOfLines( Lhorizontal, Lvertical,l1, l2, image);
@@ -1287,12 +1291,9 @@ std::vector<std::pair<float,float> > tools::extractCornerCoordinates(CMatrix<flo
 CTensor<float> tools::drawCornerLines(std::vector<std::pair<float,float> > corners,
 				     std::vector<std::pair<float,float> > l1,
                                      std::vector<std::pair<float,float> > l2,
-				     CMatrix<float> image){
+				     CTensor<float> image){
 
-	CTensor<float> result(image.xSize(),image.ySize(),3);
-	result.putMatrix(image,0);
-	result.putMatrix(image,1);
-	result.putMatrix(image,2);
+	CTensor<float> result=image;
 	//draw lines
 	//line1 from corner1 to corner2
 	float th1=l1[0].first;
@@ -1340,11 +1341,13 @@ CTensor<float> tools::drawCornerLines(std::vector<std::pair<float,float> > corne
      	for(int i=0;i<corners.size();++i){
 		int x=corners[i].first;
 		int y=corners[i].second;
-	  for(int xx=x-3;xx<x+3;++xx){
-	   for(int yy=y-3;yy<y+3;++yy){
+	  for(int xx=x-5;xx<x+5;++xx){
+	   for(int yy=y-5;yy<y+5;++yy){
+	        if(xx>=0 && xx<image.xSize() && yy>=0 && yy<image.ySize()){
 		result(xx,yy,0)=255;
 		result(xx,yy,1)=0;		
 		result(xx,yy,2)=0;
+		}
 	   }
   	 }
        }
@@ -1354,7 +1357,8 @@ CTensor<float> tools::drawCornerLines(std::vector<std::pair<float,float> > corne
 
 }
 
-bool tools::DetectBoard( CMatrix<float> image,  
+bool tools::DetectBoard( CMatrix<float> image,
+			CTensor<float> vizImage,  
 			std::vector<std::pair<float,float> >& corners, 
 			CTensor<float>& detected_board){
    
@@ -1367,13 +1371,9 @@ bool tools::DetectBoard( CMatrix<float> image,
     std::set<std::pair<float, float> > cornerList=getALLCornerCoordinates( result, 3);
     findChessBoardLines(l1,l2, cornerList, 5,image);  	
     corners=extractCornerCoordinates(result, l1, l2, cornerList,  3);
-    detected_board=drawCornerLines(corners,l1, l2, image); 
+    detected_board=drawCornerLines(corners,l1, l2, vizImage); 
     }else{
-   CTensor<float> lines(image.xSize(),image.ySize(),3,0);
-    lines.putMatrix(image,0);
-    lines.putMatrix(image,1);
-    lines.putMatrix(image,2);
-	detected_board=lines;
+	detected_board=vizImage;
 	return false;
     }
 

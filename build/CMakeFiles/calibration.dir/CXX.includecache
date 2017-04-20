@@ -529,6 +529,10 @@ QtWidgets/QApplication
 -
 QtWidgets/QButtonGroup
 -
+QtWidgets/QCheckBox
+-
+QtWidgets/QFrame
+-
 QtWidgets/QGridLayout
 -
 QtWidgets/QHBoxLayout
@@ -545,7 +549,7 @@ QtWidgets/QPushButton
 -
 QtWidgets/QSlider
 -
-QtWidgets/QSpacerItem
+QtWidgets/QVBoxLayout
 -
 QtWidgets/QWidget
 -
@@ -4660,9 +4664,17 @@ qapplication.h
 qbuttongroup.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qbuttongroup.h
 
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QCheckBox
+qcheckbox.h
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qcheckbox.h
+
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFileDialog
 qfiledialog.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qfiledialog.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFrame
+qframe.h
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QGridLayout
 qgridlayout.h
@@ -4704,9 +4716,9 @@ qpushbutton.h
 qslider.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qslider.h
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSpacerItem
-qlayoutitem.h
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlayoutitem.h
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QVBoxLayout
+qboxlayout.h
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget
 qwidget.h
@@ -4794,6 +4806,10 @@ limits.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qbuttongroup.h
 QtCore/qobject.h
+-
+
+/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qcheckbox.h
+QtWidgets/qabstractbutton.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdesktopwidget.h

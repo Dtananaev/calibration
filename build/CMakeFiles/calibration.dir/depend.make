@@ -1865,7 +1865,9 @@ CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QAction
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QApplication
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QButtonGroup
+CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QCheckBox
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFileDialog
+CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFrame
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QGridLayout
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHBoxLayout
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHeaderView
@@ -1876,7 +1878,7 @@ CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMenuBar
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSlider
-CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSpacerItem
+CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QVBoxLayout
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractitemdelegate.h
@@ -1889,6 +1891,7 @@ CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qapplication.h
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qbuttongroup.h
+CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qcheckbox.h
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdesktopwidget.h
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h
 CMakeFiles/calibration.dir/src/pclviewer.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qfiledialog.h

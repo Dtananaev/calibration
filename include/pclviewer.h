@@ -40,9 +40,6 @@ class PCLViewer: public QMainWindow
    public slots:
     void plusButton();
      void minusButton();     
-
-    void saveFileButtonPressed();
-    void loadFileButtonPressed();
     //void updateImage();  
     void MysliderReleased();
     void sliderValueChanged(int index);
