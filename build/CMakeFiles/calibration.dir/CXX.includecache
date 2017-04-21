@@ -457,6 +457,8 @@ string
 -
 algorithm
 -
+unordered_set
+-
 QMainWindow
 -
 QFileDialog
@@ -666,6 +668,8 @@ set
 string
 -
 algorithm
+-
+unordered_set
 -
 QMainWindow
 -

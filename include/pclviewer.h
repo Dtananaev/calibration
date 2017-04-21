@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <algorithm>
+#include <unordered_set>
 // Qt
 #include <QMainWindow>
 #include <QFileDialog>
@@ -38,6 +39,7 @@ class PCLViewer: public QMainWindow
   Q_OBJECT
 
    public slots:
+   void checkBoxClicked(bool);
     void plusButton();
      void minusButton();     
     //void updateImage();  
@@ -50,12 +52,13 @@ class PCLViewer: public QMainWindow
     explicit PCLViewer (QWidget *parent = 0);
     virtual ~PCLViewer ();
     void update(int index);
+
   protected:
     calibration clb_;
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_;
     PointCloudT::Ptr cloud_;
     PointCloudT::Ptr cloud_viz_;
-
+	std::unordered_set<int> listOfcornersForUse;
 
   private:
     Ui::PCLViewer *ui;

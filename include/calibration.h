@@ -30,7 +30,7 @@ public:
   void getData(std::string dir); 
   std::vector<CTensor<float> > detectedIm;
 
-std::vector< std::vector<std::pair<float,float> > > imCorners;
+std::map< int,std::vector<std::pair<float,float> > > imCorners;
 private:
 
 };

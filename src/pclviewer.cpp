@@ -54,7 +54,7 @@ PCLViewer::PCLViewer (QWidget *parent) :
   //connect(ui->indexBox, SIGNAL(valueChanged(int)), this, SLOT(updateImage()));
   connect (ui->horizontalSlider, SIGNAL (sliderReleased()), this, SLOT (MysliderReleased()));
   connect (ui->horizontalSlider, SIGNAL (valueChanged (int)), this, SLOT (sliderValueChanged(int)));
-  //connect( ui->XYZcameraButton, SIGNAL( toggled(bool) ), this, SLOT( radioButtonclickedXYZcamera(bool) ) );
+  connect( ui->checkBox, SIGNAL( toggled(bool) ), this, SLOT( checkBoxClicked(bool) ) );
  // connect( ui->XYZworldButton, SIGNAL( toggled(bool) ), this, SLOT( radioButtonclickedXYZworld(bool) ) );
   ui->horizontalSlider->setRange(0,0);
   // Color the randomly generated cloud
@@ -68,13 +68,34 @@ PCLViewer::~PCLViewer(){
 
   delete ui;
 }
+void PCLViewer::checkBoxClicked(bool checked){
+ int index=ui->horizontalSlider->value();
+auto it=listOfcornersForUse.find(index);
+	if(checked){
+		if(it==listOfcornersForUse.end()){
 
+			listOfcornersForUse.insert(index);
+ 			  ui->status->setText(QString::number(listOfcornersForUse.size())); 
+		}
+	}
+	else{
+		if(it!=listOfcornersForUse.end()){
+			listOfcornersForUse.erase(it);	
+		}
+
+	}
+}
 
 void PCLViewer::plusButton(){
 
 if(clb_.images_.size()==0){return;}
  int index=ui->horizontalSlider->value();
+
+
+	
  if(index<clb_.images_.size()-1){
+
+
     ui->horizontalSlider->setValue(index+1);
 }
 }
@@ -83,31 +104,38 @@ void PCLViewer::minusButton(){
 if(clb_.images_.size()==0){return;}
  int index=ui->horizontalSlider->value();
  if(index>0){
+
     ui->horizontalSlider->setValue(index-1);
 }
 }
 
 
 void PCLViewer::open(){
+	ui->checkBox->setEnabled(false);
+   ui->plusButton->setEnabled(false);
+   ui->minusButton->setEnabled(false);
+ ui->horizontalSlider->setEnabled(false);
     QString folder_path = QFileDialog::getExistingDirectory(this, tr("Load data"), "");      
        clb_.loadData(folder_path.toUtf8().constData());//load data
        ui->horizontalSlider->setRange(0,clb_.images_.size()-1);
+
   //detect chess border
    for(int i=0;i<clb_.gimages_.size();++i){
-
      QCoreApplication::processEvents();
      std::vector<std::pair<float,float> > corners;
      CTensor<float> detected_board;
       bool detect=clb_.DetectBoard( clb_.gimages_[i],clb_.images_[i], corners,detected_board);
-     // if(detect){
-          clb_.imCorners.push_back(corners);
-       // }
-	clb_.detectedIm.push_back(detected_board);
+          clb_.imCorners[i]=corners;
+	  clb_.detectedIm.push_back(detected_board);
+  
     ui->horizontalSlider->setValue(i);
-    MysliderReleased(); 
+  	update(i);
+   // MysliderReleased(); 
     }
-
-
+	ui->checkBox->setEnabled(true);
+   ui->plusButton->setEnabled(true);
+   ui->minusButton->setEnabled(true);
+ ui->horizontalSlider->setEnabled(true);
 }
 
 void PCLViewer::MysliderReleased(){
@@ -132,12 +160,16 @@ void PCLViewer::update(int index){
 
    
    ui->numCorners->setText(QString::number(clb_.imCorners[index].size()));
-  
+   ui->status->setText(QString::number(listOfcornersForUse.size()));  
 }
 void PCLViewer::sliderValueChanged(int index){
 if(clb_.images_.size()==0){return;}
       ui->lcdNumber->display(index);
-        if(!ui->horizontalSlider->isSliderDown()){ update(index);}     
+        if(!ui->horizontalSlider->isSliderDown()){ 
+ 	bool in_set=listOfcornersForUse.find(index)!=listOfcornersForUse.end();
+std::cout<<"in_set "<<in_set<<"\n";
+ 	in_set==true ?  ui->checkBox->setChecked(true) : ui->checkBox->setChecked(false);
+update(index);}     
 }
     
 

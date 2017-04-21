@@ -41,7 +41,6 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QHBoxLayout *horizontalLayout_2;
     QSlider *horizontalSlider;
-    QPushButton *findCheck;
     QLCDNumber *lcdNumber;
     QPushButton *minusButton;
     QPushButton *plusButton;
@@ -51,14 +50,14 @@ public:
     QCheckBox *checkBox;
     QLabel *label_2;
     QLabel *numCorners;
-    QPushButton *pushButton_2;
+    QPushButton *calibrateButton;
 
     void setupUi(QMainWindow *PCLViewer)
     {
         if (PCLViewer->objectName().isEmpty())
             PCLViewer->setObjectName(QStringLiteral("PCLViewer"));
         PCLViewer->setWindowModality(Qt::NonModal);
-        PCLViewer->resize(813, 577);
+        PCLViewer->resize(940, 577);
         PCLViewer->setMinimumSize(QSize(0, 0));
         PCLViewer->setMaximumSize(QSize(5000, 5000));
         centralwidget = new QWidget(PCLViewer);
@@ -103,11 +102,6 @@ public:
         horizontalSlider->setOrientation(Qt::Horizontal);
 
         horizontalLayout_2->addWidget(horizontalSlider);
-
-        findCheck = new QPushButton(centralwidget);
-        findCheck->setObjectName(QStringLiteral("findCheck"));
-
-        horizontalLayout_2->addWidget(findCheck);
 
 
         horizontalLayout_3->addLayout(horizontalLayout_2);
@@ -159,11 +153,11 @@ public:
 
         horizontalLayout_3->addLayout(gridLayout_2);
 
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setMinimumSize(QSize(191, 71));
+        calibrateButton = new QPushButton(centralwidget);
+        calibrateButton->setObjectName(QStringLiteral("calibrateButton"));
+        calibrateButton->setMinimumSize(QSize(191, 71));
 
-        horizontalLayout_3->addWidget(pushButton_2);
+        horizontalLayout_3->addWidget(calibrateButton);
 
 
         verticalLayout->addLayout(horizontalLayout_3);
@@ -179,15 +173,14 @@ public:
     {
         PCLViewer->setWindowTitle(QApplication::translate("PCLViewer", "PCLViewer", 0));
         imagelb->setText(QString());
-        findCheck->setText(QApplication::translate("PCLViewer", "Find Checkerboard", 0));
         minusButton->setText(QApplication::translate("PCLViewer", "-", 0));
         plusButton->setText(QApplication::translate("PCLViewer", "+", 0));
-        label->setText(QApplication::translate("PCLViewer", "Status:", 0));
+        label->setText(QApplication::translate("PCLViewer", "Pictures for calibration:", 0));
         status->setText(QString());
         checkBox->setText(QApplication::translate("PCLViewer", "use for calibration", 0));
         label_2->setText(QApplication::translate("PCLViewer", "Number of detected corners:", 0));
         numCorners->setText(QString());
-        pushButton_2->setText(QApplication::translate("PCLViewer", "Calibrate", 0));
+        calibrateButton->setText(QApplication::translate("PCLViewer", "Calibrate", 0));
     } // retranslateUi
 
 };
