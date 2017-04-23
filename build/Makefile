@@ -124,6 +124,19 @@ calibration/fast:
 .PHONY : calibration/fast
 
 #=============================================================================
+# Target rules for targets named calib
+
+# Build rule for target.
+calib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 calib
+.PHONY : calib
+
+# fast build rule for target.
+calib/fast:
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/build
+.PHONY : calib/fast
+
+#=============================================================================
 # Target rules for targets named tool
 
 # Build rule for target.
@@ -156,6 +169,7 @@ external/others/include/NMath.o: external/others/include/NMath.cpp.o
 # target to build an object file
 external/others/include/NMath.cpp.o:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/external/others/include/NMath.cpp.o
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/external/others/include/NMath.cpp.o
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.o
 .PHONY : external/others/include/NMath.cpp.o
 
@@ -166,6 +180,7 @@ external/others/include/NMath.i: external/others/include/NMath.cpp.i
 # target to preprocess a source file
 external/others/include/NMath.cpp.i:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/external/others/include/NMath.cpp.i
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/external/others/include/NMath.cpp.i
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.i
 .PHONY : external/others/include/NMath.cpp.i
 
@@ -176,6 +191,7 @@ external/others/include/NMath.s: external/others/include/NMath.cpp.s
 # target to generate assembly for a file
 external/others/include/NMath.cpp.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/external/others/include/NMath.cpp.s
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/external/others/include/NMath.cpp.s
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/external/others/include/NMath.cpp.s
 .PHONY : external/others/include/NMath.cpp.s
 
@@ -287,6 +303,33 @@ include/moc_tools.cpp.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/include/moc_tools.cpp.s
 .PHONY : include/moc_tools.cpp.s
 
+src/calibTest.o: src/calibTest.cpp.o
+
+.PHONY : src/calibTest.o
+
+# target to build an object file
+src/calibTest.cpp.o:
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/calibTest.cpp.o
+.PHONY : src/calibTest.cpp.o
+
+src/calibTest.i: src/calibTest.cpp.i
+
+.PHONY : src/calibTest.i
+
+# target to preprocess a source file
+src/calibTest.cpp.i:
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/calibTest.cpp.i
+.PHONY : src/calibTest.cpp.i
+
+src/calibTest.s: src/calibTest.cpp.s
+
+.PHONY : src/calibTest.s
+
+# target to generate assembly for a file
+src/calibTest.cpp.s:
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/calibTest.cpp.s
+.PHONY : src/calibTest.cpp.s
+
 src/calibration.o: src/calibration.cpp.o
 
 .PHONY : src/calibration.o
@@ -294,6 +337,7 @@ src/calibration.o: src/calibration.cpp.o
 # target to build an object file
 src/calibration.cpp.o:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/calibration.cpp.o
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/calibration.cpp.o
 .PHONY : src/calibration.cpp.o
 
 src/calibration.i: src/calibration.cpp.i
@@ -303,6 +347,7 @@ src/calibration.i: src/calibration.cpp.i
 # target to preprocess a source file
 src/calibration.cpp.i:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/calibration.cpp.i
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/calibration.cpp.i
 .PHONY : src/calibration.cpp.i
 
 src/calibration.s: src/calibration.cpp.s
@@ -312,6 +357,7 @@ src/calibration.s: src/calibration.cpp.s
 # target to generate assembly for a file
 src/calibration.cpp.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/calibration.cpp.s
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/calibration.cpp.s
 .PHONY : src/calibration.cpp.s
 
 src/jpg2pgm.o: src/jpg2pgm.cpp.o
@@ -348,6 +394,7 @@ src/loader.o: src/loader.cpp.o
 # target to build an object file
 src/loader.cpp.o:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/loader.cpp.o
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/loader.cpp.o
 .PHONY : src/loader.cpp.o
 
 src/loader.i: src/loader.cpp.i
@@ -357,6 +404,7 @@ src/loader.i: src/loader.cpp.i
 # target to preprocess a source file
 src/loader.cpp.i:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/loader.cpp.i
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/loader.cpp.i
 .PHONY : src/loader.cpp.i
 
 src/loader.s: src/loader.cpp.s
@@ -366,6 +414,7 @@ src/loader.s: src/loader.cpp.s
 # target to generate assembly for a file
 src/loader.cpp.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/loader.cpp.s
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/loader.cpp.s
 .PHONY : src/loader.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -429,6 +478,7 @@ src/tools.o: src/tools.cpp.o
 # target to build an object file
 src/tools.cpp.o:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/tools.cpp.o
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/tools.cpp.o
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.o
 .PHONY : src/tools.cpp.o
 
@@ -439,6 +489,7 @@ src/tools.i: src/tools.cpp.i
 # target to preprocess a source file
 src/tools.cpp.i:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/tools.cpp.i
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/tools.cpp.i
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.i
 .PHONY : src/tools.cpp.i
 
@@ -449,6 +500,7 @@ src/tools.s: src/tools.cpp.s
 # target to generate assembly for a file
 src/tools.cpp.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/src/tools.cpp.s
+	$(MAKE) -f CMakeFiles/calib.dir/build.make CMakeFiles/calib.dir/src/tools.cpp.s
 	$(MAKE) -f CMakeFiles/tool.dir/build.make CMakeFiles/tool.dir/src/tools.cpp.s
 .PHONY : src/tools.cpp.s
 
@@ -486,10 +538,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... rebuild_cache"
 	@echo "... calibration"
+	@echo "... calib"
 	@echo "... tool"
 	@echo "... im2g"
-	@echo "... rebuild_cache"
 	@echo "... external/others/include/NMath.o"
 	@echo "... external/others/include/NMath.i"
 	@echo "... external/others/include/NMath.s"
@@ -505,6 +558,9 @@ help:
 	@echo "... include/moc_tools.o"
 	@echo "... include/moc_tools.i"
 	@echo "... include/moc_tools.s"
+	@echo "... src/calibTest.o"
+	@echo "... src/calibTest.i"
+	@echo "... src/calibTest.s"
 	@echo "... src/calibration.o"
 	@echo "... src/calibration.i"
 	@echo "... src/calibration.s"

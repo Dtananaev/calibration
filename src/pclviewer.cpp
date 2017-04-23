@@ -34,13 +34,13 @@ PCLViewer::PCLViewer (QWidget *parent) :
 
   // Setup the cloud pointer
   cloud_.reset(new PointCloudT);
-  cloud_viz_.reset(new PointCloudT);
+
   // Set up the QVTK window
   viewer_.reset (new pcl::visualization::PCLVisualizer ("viewer", false));
   viewer_->setBackgroundColor (0.8, 0.8, 1.0);
   ui->qvtkWidget->SetRenderWindow (viewer_->getRenderWindow ());
   viewer_->setupInteractor (ui->qvtkWidget->GetInteractor (), ui->qvtkWidget->GetRenderWindow ());
-  viewer_->addCoordinateSystem (0.01);
+  viewer_->addCoordinateSystem (0.05);
   ui->qvtkWidget->update ();
 
     //CONNECT BUTTONS
@@ -50,7 +50,7 @@ PCLViewer::PCLViewer (QWidget *parent) :
 
   connect(ui->plusButton, SIGNAL(clicked()), this, SLOT(plusButton()));
   connect(ui->minusButton, SIGNAL(clicked()), this, SLOT(minusButton()));
-
+  connect(ui->calibrateButton, SIGNAL(clicked()), this, SLOT(calibrateButton()));
   //connect(ui->indexBox, SIGNAL(valueChanged(int)), this, SLOT(updateImage()));
   connect (ui->horizontalSlider, SIGNAL (sliderReleased()), this, SLOT (MysliderReleased()));
   connect (ui->horizontalSlider, SIGNAL (valueChanged (int)), this, SLOT (sliderValueChanged(int)));
@@ -70,6 +70,7 @@ PCLViewer::~PCLViewer(){
 }
 void PCLViewer::checkBoxClicked(bool checked){
  int index=ui->horizontalSlider->value();
+	std::cout<<"index "<<index<<"\n";
 auto it=listOfcornersForUse.find(index);
 	if(checked){
 		if(it==listOfcornersForUse.end()){
@@ -88,6 +89,10 @@ auto it=listOfcornersForUse.find(index);
 
 listOfcornersForUse.size()<5 ? ui->calibrateButton->setEnabled(false):ui->calibrateButton->setEnabled(true);
 
+}
+void PCLViewer::calibrateButton(){
+	
+    clb_.calibrate(listOfcornersForUse);
 }
 
 void PCLViewer::plusButton(){
@@ -145,7 +150,7 @@ void PCLViewer::open(){
    ui->minusButton->setEnabled(false);
  ui->horizontalSlider->setEnabled(false);
     QString folder_path = QFileDialog::getExistingDirectory(this, tr("Load data"), "");      
-       clb_.loadData(folder_path.toUtf8().constData());//load data
+       clb_.getData(folder_path.toUtf8().constData());//load data
        ui->horizontalSlider->setRange(0,clb_.images_.size()-1);
 	showModel();
   //detect chess border

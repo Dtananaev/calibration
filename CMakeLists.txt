@@ -41,6 +41,8 @@ ADD_EXECUTABLE  (tool ./src/tools.cpp ./include/tools.h ./src/toolsApp.cpp ./ext
 TARGET_LINK_LIBRARIES (tool)
 
 ADD_EXECUTABLE  (im2g ./src/jpg2pgm.cpp )
-
 TARGET_LINK_LIBRARIES (im2g ${JPEG_LIBRARIES}  ${QT_LIBRARIES} )
+
+ADD_EXECUTABLE  (calib ./src/calibTest.cpp  ./src/calibration.cpp ./src/loader.cpp ./src/tools.cpp ./external/others/include/NMath.cpp )
+TARGET_LINK_LIBRARIES (calib  ${JPEG_LIBRARIES} ${QT_LIBRARIES} )
 

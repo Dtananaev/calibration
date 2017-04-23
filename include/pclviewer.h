@@ -41,7 +41,8 @@ class PCLViewer: public QMainWindow
    public slots:
    void checkBoxClicked(bool);
     void plusButton();
-     void minusButton();     
+    void minusButton(); 
+    void calibrateButton();       
     //void updateImage();  
     void MysliderReleased();
     void sliderValueChanged(int index);
@@ -57,8 +58,7 @@ class PCLViewer: public QMainWindow
     calibration clb_;
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_;
     PointCloudT::Ptr cloud_;
-    PointCloudT::Ptr cloud_viz_;
-	std::unordered_set<int> listOfcornersForUse;
+    std::unordered_set<int> listOfcornersForUse;
 
   private:
     Ui::PCLViewer *ui;
