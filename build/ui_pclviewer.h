@@ -175,7 +175,7 @@ public:
         imagelb->setText(QString());
         minusButton->setText(QApplication::translate("PCLViewer", "-", 0));
         plusButton->setText(QApplication::translate("PCLViewer", "+", 0));
-        label->setText(QApplication::translate("PCLViewer", "Pictures for calibration:", 0));
+        label->setText(QApplication::translate("PCLViewer", "Pictures for calibration (at least 5):", 0));
         status->setText(QString());
         checkBox->setText(QApplication::translate("PCLViewer", "use for calibration", 0));
         label_2->setText(QApplication::translate("PCLViewer", "Number of detected corners:", 0));

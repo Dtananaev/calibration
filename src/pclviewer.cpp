@@ -40,7 +40,7 @@ PCLViewer::PCLViewer (QWidget *parent) :
   viewer_->setBackgroundColor (0.8, 0.8, 1.0);
   ui->qvtkWidget->SetRenderWindow (viewer_->getRenderWindow ());
   viewer_->setupInteractor (ui->qvtkWidget->GetInteractor (), ui->qvtkWidget->GetRenderWindow ());
-  viewer_->addCoordinateSystem (1.0);
+  viewer_->addCoordinateSystem (0.01);
   ui->qvtkWidget->update ();
 
     //CONNECT BUTTONS
@@ -61,7 +61,7 @@ PCLViewer::PCLViewer (QWidget *parent) :
   viewer_->addPointCloud (cloud_, "cloud");
   viewer_->resetCamera();
   ui->qvtkWidget->update();
-
+  ui->calibrateButton->setEnabled(false);
 }
 
 PCLViewer::~PCLViewer(){
@@ -80,10 +80,14 @@ auto it=listOfcornersForUse.find(index);
 	}
 	else{
 		if(it!=listOfcornersForUse.end()){
-			listOfcornersForUse.erase(it);	
+			listOfcornersForUse.erase(it);
+ 			  ui->status->setText(QString::number(listOfcornersForUse.size())); 	
 		}
 
 	}
+
+listOfcornersForUse.size()<5 ? ui->calibrateButton->setEnabled(false):ui->calibrateButton->setEnabled(true);
+
 }
 
 void PCLViewer::plusButton(){
@@ -99,6 +103,31 @@ if(clb_.images_.size()==0){return;}
     ui->horizontalSlider->setValue(index+1);
 }
 }
+
+
+void PCLViewer::showModel(){
+    cloud_->points.clear();
+
+
+    for(int i=0; i<clb_.model_.size();i++){
+        QCoreApplication::processEvents();
+      
+                 PointT p;
+                 p.x = clb_.model_[i].first;
+                 p.y =clb_.model_[i].second;
+                 p.z = 0;
+                 p.r = 255;
+                 p.g =0;
+                 p.b = 0;
+                 cloud_->points.push_back(p);
+ 	}
+        viewer_->updatePointCloud(cloud_, "cloud");
+         ui->qvtkWidget->update();
+   
+    
+
+}
+
 
 void PCLViewer::minusButton(){
 if(clb_.images_.size()==0){return;}
@@ -118,7 +147,7 @@ void PCLViewer::open(){
     QString folder_path = QFileDialog::getExistingDirectory(this, tr("Load data"), "");      
        clb_.loadData(folder_path.toUtf8().constData());//load data
        ui->horizontalSlider->setRange(0,clb_.images_.size()-1);
-
+	showModel();
   //detect chess border
    for(int i=0;i<clb_.gimages_.size();++i){
      QCoreApplication::processEvents();
@@ -161,6 +190,8 @@ void PCLViewer::update(int index){
    
    ui->numCorners->setText(QString::number(clb_.imCorners[index].size()));
    ui->status->setText(QString::number(listOfcornersForUse.size()));  
+
+
 }
 void PCLViewer::sliderValueChanged(int index){
 if(clb_.images_.size()==0){return;}

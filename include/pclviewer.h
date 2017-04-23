@@ -48,7 +48,7 @@ class PCLViewer: public QMainWindow
     private slots:
     void open();
   public:
-
+   void showModel();
     explicit PCLViewer (QWidget *parent = 0);
     virtual ~PCLViewer ();
     void update(int index);

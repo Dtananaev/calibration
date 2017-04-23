@@ -112,7 +112,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Pictures for calibration:</string>
+           <string>Pictures for calibration (at least 5):</string>
           </property>
          </widget>
         </item>

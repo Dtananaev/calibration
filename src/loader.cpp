@@ -14,9 +14,30 @@ loader::loader(){
 loader::~loader(){
 }
 
+bool loader::readModel(std::string filename){
+model_.clear();
+     std::ifstream file_stream_pose(filename);
+    if (file_stream_pose.is_open()) { // check if file exsist
+         std::string line;
+         while (std::getline(file_stream_pose, line)) {
+            std::istringstream file_stream_pose(line);
+   	   float x,y;            
+           file_stream_pose>>x>>y;
+           model_.push_back(std::make_pair(x,y));
+         }
+         file_stream_pose.close();
+    }else{
+       return false;
+    }
+
+    return true;
+}
 void loader::loadData(std::string directory){
     images_.clear();
     gimages_.clear();
+    if(!readModel(directory+"/model.txt")){
+  	 std::cerr<<"Error:Can't find file model.txt in the folder"<<"\n";		
+    }
     //load the set of image
     if(getImagesNames(directory)){
         for(int i=0;i<image_list_.size();++i){

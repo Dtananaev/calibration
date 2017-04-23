@@ -33,11 +33,13 @@ public:
     virtual ~loader();
     void loadData(std::string directory);
     bool getImagesNames(std::string image_path);
+    bool readModel(std::string filename);	
     CTensor<float> GetImageData(std::string file_name);
     CMatrix<float> Convert2Grayscale(CTensor<float> image);
     std::vector<std::string> image_list_;
     std::vector<CTensor<float> > images_;
     std::vector<CMatrix<float> > gimages_;
+    std::vector<std::pair<float,float> > model_;
 private:
 };
 
